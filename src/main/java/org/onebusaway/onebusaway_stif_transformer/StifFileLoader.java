@@ -37,7 +37,7 @@ import org.onebusaway.onebusaway_stif_transformer.model.TripRecord;
 import org.onebusaway.onebusaway_stif_transformer.model.ControlRecord;
 
 
-public class StifTripLoader {
+public class StifFileLoader {
 
 
   private StifSupport support = new StifSupport();
@@ -76,15 +76,13 @@ public class StifTripLoader {
   public void run(InputStream stream, File path) {
     System.out.println("Path is: " + path.toString());
     StifRecordReader reader;
-
-    boolean warned = false;
+    String[] tmp = path.toString().split("/");
+    String fileName = tmp[tmp.length-1];
     int lineNumber = 0;
-    int tripLineNumber = 0;
     TripRecord tripRecord = null;
     try {
       reader = new StifRecordReader(stream);
       while (true) {
-        System.out.println("Read line: " + lineNumber);
         StifRecord record = reader.read();
         lineNumber++;
 
@@ -96,35 +94,40 @@ public class StifTripLoader {
 
         if (record instanceof TimetableRecord) {
           TimetableRecord timetableRecord = (TimetableRecord) record;
-          support.putTimeTableRecord(timetableRecord);
+          timetableRecord.addFileName(fileName);
+          support.putTimeTableRecordForFileId(fileName,timetableRecord);
           continue;
         }
         if (record instanceof GeographyRecord) {
           GeographyRecord geographyRecord = ((GeographyRecord) record);
-          support.putStopIdForLocation(geographyRecord.getIdentifier(),
-                  geographyRecord.getBoxID());
+          geographyRecord.addFileName(fileName);
+          support.putGeographyRecordForBoxId(geographyRecord.getBoxID(),
+                  geographyRecord);
           continue;
         }
         if (record instanceof TripRecord) {
-          tripLineNumber = lineNumber;
           tripRecord = (TripRecord) record;
-          support.putTripRecordForTripPrimaryRunNumber(tripRecord.getPrimaryRunNumber(),tripRecord);
+          tripRecord.addFileName(fileName);
+          support.putTripRecordForTripId(tripRecord.getPrimaryRunRoute()+tripRecord.getPrimaryRunNumber(),tripRecord);
         }
 
         if (record instanceof EventRecord) {
           EventRecord eventRecord = ((EventRecord) record);
-          support.putEventRecordForTripPrimaryRunNumber(tripRecord.getPrimaryRunNumber(),eventRecord);
+          eventRecord.addFileName(fileName);
+          support.putEventRecordForTripId(tripRecord.getPrimaryRunRoute()+tripRecord.getPrimaryRunNumber(),eventRecord);
         }
         if (record instanceof SignCodeRecord) {
           SignCodeRecord signCodeRecord = ((SignCodeRecord) record);
+          signCodeRecord.addFileName(fileName);
           support.putSignCodeRecordForSignCode(signCodeRecord.getSignCode(), signCodeRecord);
         }
         if (record instanceof ControlRecord) {
           ControlRecord controlRecord = ((ControlRecord) record);
-          support.putControlRecord(controlRecord);
+          controlRecord.addFileName(fileName);
+          support.putControlRecordForFileId(fileName,controlRecord);
         }
       }
-      System.out.print("good line to pause at");
+      support.processFile(fileName);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

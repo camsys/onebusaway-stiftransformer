@@ -32,7 +32,7 @@ public class TripRecord implements StifRecord {
 	private String primaryRunRoute;
 	private String midtripReliefRunNumber;
 	private String midtripReliefRunRoute;
-	private int midtripReliefTime;
+	private String midtripReliefTime;
 	private String midtripReliefLocation;
 	private String busTypeCode;
 	private String signCode;
@@ -47,11 +47,11 @@ public class TripRecord implements StifRecord {
 	private String nextTripOperatorRunNumber;
 	private String nextTripOperatorRoute;
 	private String nextTripOriginTime;
-	private int recoveryTimeafterThisTrip;
-	private String signCodeRouteforThisTrip;
+	private String recoveryTimeafterThisTrip;
+	private String signCodeRouteForThisTrip;
 	private String previousTripOperatorRunNumber;
 	private String previousTripOperatorRoute;
-	private int previousTripOriginTime;
+	private String previousTripOriginTime;
 	private String originLocationBoxID;
 	private String destinationLocationBoxID;
 	private String reliefLocationBoxID;
@@ -102,7 +102,7 @@ public class TripRecord implements StifRecord {
 	public void setMidtripReliefRunRoute (String midtripReliefRunRoute){
 		this.midtripReliefRunRoute = midtripReliefRunRoute;
 	}
-	public void setMidtripReliefTime (int midtripReliefTime){
+	public void setMidtripReliefTime (String midtripReliefTime){
 		this.midtripReliefTime = midtripReliefTime;
 	}
 	public void setMidtripReliefLocation (String midtripReliefLocation){
@@ -147,11 +147,11 @@ public class TripRecord implements StifRecord {
 	public void setNextTripOriginTime (String nextTripOriginTime){
 		this.nextTripOriginTime = nextTripOriginTime;
 	}
-	public void setRecoveryTimeAfterThisTrip (int recoveryTimeAfterThisTrip){
-		this.recoveryTimeafterThisTrip = recoveryTimeafterThisTrip;
+	public void setRecoveryTimeAfterThisTrip (String recoveryTimeAfterThisTrip){
+		this.recoveryTimeafterThisTrip = recoveryTimeAfterThisTrip;
 	}
 	public void setSignCodeRouteForThisTrip (String signCodeRouteForThisTrip){
-		this.signCodeRouteforThisTrip = signCodeRouteforThisTrip;
+		this.signCodeRouteForThisTrip = signCodeRouteForThisTrip;
 	}
 	public void setPreviousTripOperatorRunNumber (String previousTripOperatorRunNumber){
 		this.previousTripOperatorRunNumber = previousTripOperatorRunNumber;
@@ -159,7 +159,7 @@ public class TripRecord implements StifRecord {
 	public void setPreviousTripOperatorRoute (String previousTripOperatorRoute){
 		this.previousTripOperatorRoute = previousTripOperatorRoute;
 	}
-	public void setPreviousTripOriginTime (int previousTripOriginTime){
+	public void setPreviousTripOriginTime (String previousTripOriginTime){
 		this.previousTripOriginTime = previousTripOriginTime;
 	}
 	public void setOriginLocationBoxID (String originLocationBoxID){
@@ -222,10 +222,8 @@ public class TripRecord implements StifRecord {
 	public String getMidtripReliefRunNumber (){
 		return this.midtripReliefRunNumber;
 	}
-	public String getMidtripReliefRunRoute (){
-		return this.midtripReliefRunRoute;
-	}
-	public int getMidtripReliefTime (){
+	public String getMidtripReliefRunRoute (){ return this.midtripReliefRunRoute; }
+	public String getMidtripReliefTime (){
 		return this.midtripReliefTime;
 	}
 	public String getMidtripReliefLocation (){
@@ -240,7 +238,7 @@ public class TripRecord implements StifRecord {
 	public String getFirstTripInSequence (){
 		return this.firsttripinSequence;
 	}
-	public String getLastTripinSequence (){
+	public String getLastTripInSequence (){
 		return this.lastTripinSequence;
 	}
 	public String getPrimaryReliefStatus (){
@@ -264,17 +262,15 @@ public class TripRecord implements StifRecord {
 	public String getNextTripOperatorRunNumber (){
 		return this.nextTripOperatorRunNumber;
 	}
-	public String getNextTripOperatorRoute (){
-		return this.nextTripOperatorRoute;
-	}
+	public String getNextTripOperatorRoute (){ return this.nextTripOperatorRoute; }
 	public String getNextTripOriginTime (){
 		return this.nextTripOriginTime;
 	}
-	public int getRecoveryTimeAfterThisTrip (){
+	public String getRecoveryTimeAfterThisTrip (){
 		return this.recoveryTimeafterThisTrip;
 	}
 	public String getSignCodeRouteForThisTrip (){
-		return this.signCodeRouteforThisTrip;
+		return this.signCodeRouteForThisTrip;
 	}
 	public String getPreviousTripOperatorRunNumber (){
 		return this.previousTripOperatorRunNumber;
@@ -282,7 +278,7 @@ public class TripRecord implements StifRecord {
 	public String getPreviousTripOperatorRoute (){
 		return this.previousTripOperatorRoute;
 	}
-	public int getPreviousTripOriginTime (){
+	public String getPreviousTripOriginTime (){
 		return this.previousTripOriginTime;
 	}
 	public String getOriginLocationBoxID (){
@@ -310,4 +306,311 @@ public class TripRecord implements StifRecord {
 		return this.gTFSTripID;
 	}
 
+
+
+
+	String fileName = null;
+	public void addFileName(String fileName){
+		this.fileName = fileName;
+	}
+	public String getFileName(String fileName){
+		return this.fileName;
+	}
+
+	@Override
+	public String toString()
+	{
+		String out = "";
+		int n = 3 - 1;
+		String formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getRecordType());
+
+
+		n = 7 - 3;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getOriginLocation());
+
+
+		n = 15 - 7;
+		formatter = "%0"+ n + "d";
+		out += String.format(formatter,this.getOriginTime());
+
+
+		n = 17 - 15;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getDirection());
+
+
+		n = 19 - 17;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getTripType());
+
+
+		n = 23 - 19;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getDestinationLocation());
+
+
+		n = 31 - 23;
+		formatter = "%0"+ n + "d";
+		out += String.format(formatter,this.getDestinationTime());
+
+
+		n = 35 - 31;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getPickCode());
+
+
+		n = 41 - 35;
+		formatter = "%"+ n + "s";
+		out += String.format(formatter,this.getPrimaryRunNumber());
+
+
+		n = 53 - 41;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getPathCode());
+
+
+		n = 59 - 53;
+		formatter = "%"+ n + "s";
+		out += String.format(formatter,this.getPrimaryRunRoute());
+
+
+		n = 65 - 59;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getMidtripReliefRunNumber());
+
+
+		n = 71 - 65;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getMidtripReliefRunRoute());
+
+
+		n = 79 - 71;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getMidtripReliefTime());
+
+
+		n = 83 - 79;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getMidtripReliefLocation());
+
+
+		n = 84 - 83;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getBusTypeCode());
+
+
+		n = 88 - 84;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getSignCode());
+
+
+		n = 89 - 88;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 90 - 89;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getFirstTripInSequence());
+
+
+		n = 91 - 90;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 92 - 91;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getLastTripInSequence());
+
+
+		n = 93 - 92;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 99 - 93;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getNextOperatorRunNumber());
+
+
+		n = 100 - 99;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 106 - 100;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getNextOperatorRoute());
+
+
+		n = 107 - 106;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 112 - 107;
+		formatter = "%"+ n + "s";
+		out += String.format(formatter,this.getTripMileage());
+
+
+		n = 113 - 112;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 115 - 113;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getDepotCode());
+
+
+		n = 116 - 115;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 126 - 116;
+		formatter = "%"+ n + "s";
+		out += String.format(formatter,this.getBlockNumber());
+
+
+		n = 127 - 126;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 133 - 127;
+		formatter = "%"+ n + "s";
+		out += String.format(formatter,this.getNextTripOperatorRunNumber());
+
+
+		n = 134 - 133;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 140 - 134;
+		formatter = "%"+ n + "s";
+		out += String.format(formatter,this.getNextTripOperatorRoute());
+
+
+		n = 141 - 140;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 149 - 141;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getNextTripOriginTime());
+
+
+		n = 150 - 149;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 154 - 150;
+		formatter = "%"+ n + "s";
+		out += String.format(formatter,this.getRecoveryTimeAfterThisTrip());
+
+
+		n = 155 - 154;
+		formatter = "%"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 161 - 155;
+		formatter = "%"+ n + "s";
+		out += String.format(formatter,this.getSignCodeRouteForThisTrip());
+
+		n = 162 - 161;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 168 - 162;
+		formatter = "%"+ n + "s";
+		out += String.format(formatter,this.getPreviousTripOperatorRunNumber());
+
+
+		n = 169 - 168;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 175 - 169;
+		formatter = "%"+ n + "s";
+		out += String.format(formatter,this.getPreviousTripOperatorRoute());
+
+
+		n = 176 - 175;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 184 - 176;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getPreviousTripOriginTime());
+
+
+		n = 185 - 184;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 191 - 185;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getOriginLocationBoxID());
+
+
+		n = 192 - 191;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 198 - 192;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getDestinationLocationBoxID());
+
+
+		n = 199 - 198;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 205 - 199;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getReliefLocationBoxID());
+
+
+		n = 206 - 205;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 208 - 206;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getMidtripReliefDepot());
+
+
+		n = 209 - 208;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 211 - 209;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getNextOperatorDepot());
+
+
+		n = 212 - 211;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 214 - 212;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getNextTripOperatorDepot());
+
+
+		n = 215 - 214;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 217 - 215;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getPreviousTripOperatorDepot());
+
+
+		n = 218 - 217;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,"");
+
+		n = 258 - 218;
+		formatter = "%-"+ n + "s";
+		out += String.format(formatter,this.getGTFSTripID());
+
+		return out;
+	}
 }

@@ -21,13 +21,7 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.onebusaway.onebusaway_stif_transformer.model.EventRecordFactory;
-import org.onebusaway.onebusaway_stif_transformer.model.GeographyRecordFactory;
-import org.onebusaway.onebusaway_stif_transformer.model.SignCodeRecordFactory;
-import org.onebusaway.onebusaway_stif_transformer.model.StifRecord;
-import org.onebusaway.onebusaway_stif_transformer.model.StifRecordFactory;
-import org.onebusaway.onebusaway_stif_transformer.model.TimetableRecordFactory;
-import org.onebusaway.onebusaway_stif_transformer.model.TripRecordFactory;
+import org.onebusaway.onebusaway_stif_transformer.model.*;
 
 /**
  * Read records from a STIF file. STIF is MTA's internal format for bus
@@ -54,6 +48,7 @@ public class StifRecordReader {
 		recordFactories.put(21, new TripRecordFactory());
 		recordFactories.put(31, new EventRecordFactory());
 		recordFactories.put(35, new SignCodeRecordFactory());
+		recordFactories.put(41, new ControlRecordFactory());
 	}
 
 	public StifRecordReader(InputStream stream) {

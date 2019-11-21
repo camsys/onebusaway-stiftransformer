@@ -52,4 +52,39 @@ public class SignCodeRecord implements StifRecord {
 	public void setRecordType(String recordType) {
 		this.recordType = recordType;
 	}
+
+	String fileName = null;
+	public void addFileName(String fileName){
+		this.fileName = fileName;
+	}
+	public String getFileName(String fileName){
+		return this.fileName;
+	}
+
+	@Override
+	public String toString(){
+		String out = "";
+		int n = 3 - 1;
+		String formatter = "%-"+n+"s";
+		out += String.format(formatter, this.getRecordType());
+
+		n = 11 - 3;
+		formatter = "%-"+n+"s";
+		out += String.format(formatter, this.getSignCode());
+
+		n = 19 - 11;
+		formatter = "%-"+n+"s";
+		out += String.format(formatter, this.getSignRoute());
+
+
+		n = 21 - 19;
+		formatter = "%-"+n+"s";
+		out += String.format(formatter, "");
+
+		n = 121 - 21;
+		formatter = "%-"+n+"s";
+		out += String.format(formatter, this.getSignText());
+
+		return out;
+	}
 }

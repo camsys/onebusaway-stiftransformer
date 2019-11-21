@@ -75,11 +75,11 @@ public class GeographyRecordFactory extends StifRecordFactory<GeographyRecord> {
         new FieldDef(78 - 77, "empty", null),
         new FieldDef(88 - 78, "latitude", new GeographyFieldSetter() {
           public void setField(GeographyRecord record) {
-            record.setLatitude(getDecimalFixedPoint(2));
+            record.setLatitude(getStringData());
           }
         }), new FieldDef(98 - 88, "latitude", new GeographyFieldSetter() {
           public void setField(GeographyRecord record) {
-            record.setLongitude(getDecimalFixedPoint(2));
+            record.setLongitude(getStringData());
           }
         }), new FieldDef(99 - 98, "empty", null),
         new FieldDef(105 - 99, "box id", new GeographyFieldSetter() {

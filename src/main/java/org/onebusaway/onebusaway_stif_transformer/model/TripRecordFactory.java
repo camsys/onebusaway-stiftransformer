@@ -49,7 +49,7 @@ public class TripRecordFactory extends StifRecordFactory<TripRecord> {
       }),
       new FieldDef(19 - 17, "trip type", new TripFieldSetter() {
         public void setField(TripRecord record) {
-          record.setTripType(getInteger());
+            record.setTripType(getInteger());
         }
       }),
       new FieldDef(23 - 19, "destination location", new TripFieldSetter() {
@@ -94,7 +94,7 @@ public class TripRecordFactory extends StifRecordFactory<TripRecord> {
       }),
       new FieldDef(79 - 71, "midtrip relief time", new TripFieldSetter() {
         public void setField(TripRecord record) {
-          record.setMidtripReliefTime(getIntegerSafe());
+          record.setMidtripReliefTime(getStringData());
         }
       }),
       new FieldDef(83 - 79, "midtrip relief location", new TripFieldSetter() {
@@ -175,7 +175,7 @@ public class TripRecordFactory extends StifRecordFactory<TripRecord> {
       new FieldDef(150 - 149, "empty", null),
       new FieldDef(154 - 150, "recovery time after this trip", new TripFieldSetter() {
         public void setField(TripRecord record) {
-          record.setRecoveryTimeAfterThisTrip(getIntegerSafe());
+          record.setRecoveryTimeAfterThisTrip(getStringData());
         }
       }),
       new FieldDef(155 - 154, "empty", null),
@@ -197,7 +197,7 @@ public class TripRecordFactory extends StifRecordFactory<TripRecord> {
       new FieldDef(176 - 175, "empty", null),
       new FieldDef(184 - 176, "previous trip origin time", new TripFieldSetter() {
           public void setField(TripRecord record) {
-          record.setPreviousTripOriginTime(getIntegerSafe());
+          record.setPreviousTripOriginTime(getStringData());
           }
       }),
       new FieldDef(185 - 184, "empty", null),

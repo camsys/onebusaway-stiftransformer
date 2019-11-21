@@ -28,8 +28,8 @@ public class GeographyRecord implements StifRecord, Serializable {
 	private String boroughCode;
 	private String timepointIdentifier;
 	private String locationType;
-	private float latitude;
-	private float longitude;
+	private String latitude;
+	private String longitude;
 	private String boxID;
 
 
@@ -41,18 +41,18 @@ public class GeographyRecord implements StifRecord, Serializable {
 		return identifier;
 	}
 
-	public void setLatitude(float latitude) {
+	public void setLatitude(String latitude) {
 		this.latitude = latitude;		
 	}
 	
-	public float getLatitude() {
+	public String getLatitude() {
 		return latitude;
 	}
 	
-	public void setLongitude(float longitude) {
+	public void setLongitude(String longitude) {
 		this.longitude = longitude;		
 	}
-	public float getLongitude() {
+	public String getLongitude() {
 		return longitude;
 	}
 
@@ -119,6 +119,89 @@ public class GeographyRecord implements StifRecord, Serializable {
 
 	public void setTimepointIdentifier(String timepointIdentifier) {
 		this.timepointIdentifier = timepointIdentifier;
+	}
+
+	String fileName = null;
+
+	public void addFileName(String fileName){
+		this.fileName = fileName;
+	}
+
+	public String getFileName(String fileName){
+		return this.fileName;
+	}
+
+	@Override
+	public String toString(){
+		String tmp = "";
+		String out = "";
+		int n = 3 - 1;
+		String formater = "%-"+ n + "s";
+		out += String.format(formater,this.getRecordType());
+
+		n = 7 - 3;
+		formater = "%-"+ n + "s";
+		out += String.format(formater,this.getIdentifier());
+
+		n = 29 - 7;
+		formater = "%-"+ n + "s";
+		out += String.format(formater,this.getLocationDescription());
+
+		n = 51 - 29;
+		formater = "%-"+ n + "s";
+		out += String.format(formater,this.getIntersectionDescription());
+
+		n = 63 - 51;
+		formater = "%-"+ n + "s";
+		out += String.format(formater,this.getGeocode());
+
+		n = 65 - 63;
+		formater = "%-"+ n + "s";
+		out += String.format(formater,this.getBoroughCode());
+
+		n = 66 - 65;
+		formater = "%-"+ n + "s";
+		out += String.format(formater,"");
+
+		n = 74 - 66;
+		formater = "%-"+ n + "s";
+		out += String.format(formater,this.getTimepointIdentifier());
+
+		n = 75 - 74;
+		formater = "%-"+ n + "s";
+		out += String.format(formater,"");
+
+		n = 77 - 75;
+		formater = "%-"+ n + "s";
+		out += String.format(formater,this.getLocationType());
+
+		n = 78 - 77;
+		formater = "%-"+ n + "s";
+		out += String.format(formater,"");
+
+		n = 88 - 78;
+		formater = "%"+ n + "s";
+		tmp =  String.format(formater,this.getLatitude());
+		tmp = tmp.replaceAll("\\.", "");
+		tmp =  String.format(formater,tmp);
+
+		out += tmp;
+
+		n = 98 - 88;
+		formater = "%"+ n + "s";
+		tmp =  String.format(formater,this.getLongitude());
+		tmp = tmp.replaceAll("\\.", "");
+		tmp =  String.format(formater,tmp);
+		out += tmp;
+
+		n = 99 - 98;
+		formater = "%-"+ n + "s";
+		out += String.format(formater,"");
+
+		n = 105 - 99;
+		formater = "%-"+ n + "s";
+		out += String.format(formater,this.getBoxID());
+		return out;
 	}
 
 }

@@ -93,5 +93,53 @@ public class EventRecord implements StifRecord {
     this.locationBoxID = locationBoxID;
   }
 
+  String fileName = null;
+  public void addFileName(String fileName){
+    this.fileName = fileName;
+  }
+  public String getFileName(String fileName){
+    return this.fileName;
+  }
 
+  @Override
+  public String toString(){
+    String out = "";
+    int n = 3 - 1;
+    String formatter = "%-"+n+"s";
+    out += String.format(formatter, this.getRecordType());
+    n = 7 - 3;
+    formatter = "%-"+n+"s";
+    out += String.format(formatter, this.getLocation());
+    n = 15 - 7;
+    formatter = "%-"+n+"s";
+    out += String.format(formatter, this.getEventTime());
+    n = 17 - 15;
+    formatter = "%-"+n+"s";
+    out += String.format(formatter, this.getEventType());
+    n = 18 - 17;
+    formatter = "%-"+n+"s";
+    out += String.format(formatter, this.getStopFlag());
+    n = 19 - 18;
+    formatter = "%-"+n+"s";
+    out += String.format(formatter, this.getTimepoint());
+    n = 21 - 19;
+    formatter = "%-"+n+"s";
+    out += String.format(formatter, this.getLocationTypeCode());
+    n = 23 - 21;
+    formatter = "%"+n+"s";
+    out += String.format(formatter, this.getBoardingAlightingFlag());
+    n = 24 - 23;
+    formatter = "%-"+n+"s";
+    out += String.format(formatter,"");
+    n = 29 - 24;
+    formatter = "%"+n+"s";
+    out += String.format(formatter, this.getDistanceFromStartOfTrip());
+    n = 30 - 29;
+    formatter = "%-"+n+"s";
+    out += String.format(formatter,"");
+    n = 36 - 30;
+    formatter = "%-"+n+"s";
+    out += String.format(formatter, this.getLocationBoxID());
+    return out;
+  }
 }

@@ -149,7 +149,7 @@ public class TimetableRecordFactory extends StifRecordFactory<TimetableRecord> {
 			}),
 			new FieldDef(154 - 146, "holiday code", new TimetableFieldSetter() {
 				public void setField(TimetableRecord record) {
-					record.setStatisticalRoute(getStringData());
+					record.setHolidayCode(getStringData());
 				}
 			})
 		};

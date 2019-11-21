@@ -29,7 +29,7 @@ import org.onebusaway.onebusaway_stif_transformer.model.*;
 public class StifSupport {
 
 
-  private Map<String, String> stopIdsByLocation = new HashMap<String, String>();
+
 
   private int _totalTripCount;
 
@@ -38,15 +38,25 @@ public class StifSupport {
 
   private Boolean _excludeNonRevenue = true;
 
-
-  private TimetableRecord timetableRecord;
-  private Map<String, TripRecord> tripRecordForTripPrimaryRunNumber = new HashMap<String, TripRecord>();
-  private Map<String, ArrayList<EventRecord>> eventRecordForTripPrimaryRunNumber = new HashMap<String, ArrayList<EventRecord>>();
+  private Map<String, GeographyRecord> geographyRecordForBoxId = new HashMap<String, GeographyRecord>();
+  private Map<String,ArrayList<StifRecord>> stifFileRecordsForFileId = new HashMap<String,ArrayList<StifRecord>>();
+  private Map<String, TimetableRecord> timetableRecordForFileId = new HashMap<String, TimetableRecord>();
+  private Map<String, TripRecord> tripRecordForTripId = new HashMap<String, TripRecord>();
+  private Map<String, ArrayList<EventRecord>> eventRecordForTripId = new HashMap<String, ArrayList<EventRecord>>();
   private Map<String, SignCodeRecord> signCodeRecordForSignCode =  new HashMap<String, SignCodeRecord>();
-  private ControlRecord controlRecord;
+  private Map<String, ControlRecord> controlRecordForFileId = new HashMap<String, ControlRecord>();
 
   public static ServiceCode scheduleIdForGtfsDayCode(String dayCode) {
     return ServiceCode.getServiceCodeForId(dayCode);
+  }
+
+  public void processFile(String fileId){
+    stifFileRecordsForFileId.put(fileId,recordsByLineNumber);
+    recordsByLineNumber = new ArrayList<StifRecord>();
+  }
+
+  public Map<String,ArrayList<StifRecord>> getStifFileRecordsForFileId(){
+    return stifFileRecordsForFileId;
   }
 
   public void addRecord(StifRecord record){
@@ -57,12 +67,14 @@ public class StifSupport {
     return _totalTripCount;
   }
 
-  public void putStopIdForLocation(String location, String stopId) {
-    stopIdsByLocation.put(location, stopId);
+  public void putGeographyRecordForBoxId(String boxId, GeographyRecord geographyRecord) {
+    printDuplicate(geographyRecordForBoxId.get(geographyRecord));
+    geographyRecordForBoxId.put(boxId,geographyRecord);
   }
 
-  public void putTimeTableRecord(TimetableRecord timetableRecord){
-    this.timetableRecord = timetableRecord;
+  public void putTimeTableRecordForFileId(String fileId, TimetableRecord timetableRecord){
+    printDuplicate(timetableRecordForFileId.get(fileId));
+    timetableRecordForFileId.put(fileId,timetableRecord);
   }
 
   public SignCodeRecord getSignCodeRecordForSignCode(String signCode) {
@@ -70,30 +82,33 @@ public class StifSupport {
   }
 
   public void putSignCodeRecordForSignCode(String signCode, SignCodeRecord signCodeRecord) {
+    printDuplicate(signCodeRecordForSignCode.get(signCode));
     signCodeRecordForSignCode.put(signCode, signCodeRecord);
   }
 
-  public void putTripRecordForTripPrimaryRunNumber(String primaryRunNumber, TripRecord tripRecord){
-    tripRecordForTripPrimaryRunNumber.put(primaryRunNumber,tripRecord);
+  public void putTripRecordForTripId(String tripId, TripRecord tripRecord){
+    printDuplicate(tripRecordForTripId.get(tripRecord));
+    tripRecordForTripId.put(tripId,tripRecord);
   }
 
-  public void putEventRecordForTripPrimaryRunNumber(String primaryRunNumber, EventRecord eventRecord){
-    if (eventRecordForTripPrimaryRunNumber.get(primaryRunNumber) == null){
-      eventRecordForTripPrimaryRunNumber.put(primaryRunNumber,new ArrayList<EventRecord>());
+  public void putEventRecordForTripId(String tripId, EventRecord eventRecord){
+    if (eventRecordForTripId.get(tripId) == null){
+      eventRecordForTripId.put(tripId,new ArrayList<EventRecord>());
     }
-    eventRecordForTripPrimaryRunNumber.get(primaryRunNumber).add(eventRecord);
+    eventRecordForTripId.get(tripId).add(eventRecord);
   }
 
-  public void putControlRecord(ControlRecord controlRecord){
-    this.controlRecord = controlRecord;
+  public void putControlRecordForFileId(String fileId, ControlRecord controlRecord){
+    printDuplicate(controlRecordForFileId.get(fileId));
+    controlRecordForFileId.put(fileId,controlRecord);
   }
 
   /****
    * Private Methods
    ****/
 
-  public String getStopIdForLocation(String originLocation) {
-    return stopIdsByLocation.get(originLocation);
+  public GeographyRecord getGeographyRecordForBoxId(String boxId) {
+    return geographyRecordForBoxId.get(boxId);
   }
 
 
@@ -105,4 +120,11 @@ public class StifSupport {
        _excludeNonRevenue = excludeNonRevenue;
     }
 
+    private void printDuplicate(StifRecord record){
+      if (record != null){
+        System.out.print("Duplicate found: ");
+        System.out.print("class = " + record.getClass());
+        System.out.println("value = " + record.toString());
+      }
+    }
   }

@@ -34,7 +34,8 @@ public class ControlRecordFactory extends StifRecordFactory<ControlRecord> {
                     public void setField(ControlRecord record) {record.setNumberOfGeographyRecords(getStringData());}}),
                 new FieldDef(15-9, "Number of Event Records", new ControlFieldSetter() {
                     public void setField(ControlRecord record) {record.setNumberOfEventRecords(getStringData());}}),
-                new FieldDef(21-15, "empty", null),
+                new FieldDef(21-15, "Unknown Field", new ControlFieldSetter() {
+                    public void setField(ControlRecord record) {record.setUnknownField(getStringData());}}),
                 new FieldDef(27-21, "Number of Revenue Records", new ControlFieldSetter() {
                     public void setField(ControlRecord record) {record.setNumberOfRevenueTrips(getStringData());}}),
                 new FieldDef(33-27, "Number of Sign Code Records", new ControlFieldSetter() {

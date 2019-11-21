@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.onebusaway.onebusaway_stif_transformer.NonRevenueStopData;
 import org.onebusaway.onebusaway_stif_transformer.StifTrip;
-import org.onebusaway.onebusaway_stif_transformer.StifTripLoader;
+import org.onebusaway.onebusaway_stif_transformer.StifFileLoader;
 import org.onebusaway.onebusaway_stif_transformer.StifSupport;
 import org.onebusaway.onebusaway_stif_transformer.model.GeographyRecord;
 import org.onebusaway.onebusaway_stif_transformer.model.ServiceCode;
@@ -17,8 +17,8 @@ public class StifLoaderImpl {
 
 
 	// for unit tests
-	private StifTripLoader _loader = null;
-	public void setStifTripLoader(StifTripLoader loader) {
+	private StifFileLoader _loader = null;
+	public void setStifFileLoader(StifFileLoader loader) {
 		_loader = loader;
 	}
 
@@ -32,7 +32,7 @@ public class StifLoaderImpl {
 	public void load(List<File> stifPaths){
 		if (_loader == null) {
 			// we let the unit tests inject a custom loader
-			_loader = new StifTripLoader();
+			_loader = new StifFileLoader();
 			_loader.setExcludeNonRevenue(_excludeNonRevenue);
 
 			for (File path : stifPaths) {
@@ -42,7 +42,7 @@ public class StifLoaderImpl {
 		}
 	}
 
-	public void loadStif(File path, StifTripLoader loader) {
+	public void loadStif(File path, StifFileLoader loader) {
 		// Exclude files and directories like .svn
 		if (path.getName().startsWith("."))
 			return;
@@ -72,7 +72,7 @@ public class StifLoaderImpl {
 	}
 
 	public static void main(){
-		System.out.println("Demo!");
+
 	}
 
 }

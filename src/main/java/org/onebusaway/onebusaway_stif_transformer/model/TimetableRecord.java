@@ -70,14 +70,6 @@ public class TimetableRecord implements StifRecord {
 		return serviceCode;
 	}
 
-  	public void setAgencyId(String agencyId) {
-    this.agencyId = agencyId;
-  }
-
-  	public String getAgencyId() {
-    return agencyId;
-  }
-
 	public void setAdditionalDepotCode1(String additionalDepotCode1) {
 		this.additionalDepotCode1 = additionalDepotCode1;
 	}
@@ -234,6 +226,161 @@ public class TimetableRecord implements StifRecord {
 
 	public void setDepotDescription(String depotDescription) {
 		this.depotDescription = depotDescription;
+	}
+
+	String fileName = null;
+	public void addFileName(String fileName){
+		this.fileName = fileName;
+	}
+	public String getFileName(String fileName){
+		return this.fileName;
+	}
+
+	@Override
+	public String toString(){
+		String out = "";
+		int n = 3 - 1;
+		String formater = "%-"+ n + "s";
+		out += String.format(formater, this.getRecordType());
+
+		n = 7 - 3;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getDepotCode());
+
+		n = 9 - 7;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getBoroughCode());
+
+		n = 15 - 9;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getRouteIdentifier());
+
+		n = 17 - 15;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getServiceCode());
+
+		n = 41 - 17;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getDepotDescription());
+
+		n = 65 - 41;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getRouteDescription());
+
+		n = 73 - 65;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getScheduleNumber());
+
+		n = 77 - 73;
+		formater = "%"+ n + "s";
+		out += String.format(formater, this.getVersionNumber());
+
+		n = 78 - 77;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, "");
+
+		n = 79 - 78;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getStifTypeCode());
+
+		n = 80 - 79;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, "");
+
+		n = 82 - 80;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getOrganization());
+
+		n = 84 - 82;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, "");
+
+		n = 92 - 84;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getGenerationDate());
+
+		n = 93 - 92;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, "");
+
+		n = 95 - 93;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getAdditionalDepotCode1());
+
+		n = 96 - 95;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, "");
+
+		n = 98 - 96;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getAdditionalDepotCode2());
+
+		n = 99 - 98;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, "");
+
+		n = 101 - 99;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getAdditionalDepotCode3());
+
+		n = 102 - 101;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, "");
+
+		n = 104 - 102;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getAdditionalDepotCode4());
+
+		n = 105 - 104;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, "");
+
+		n = 111 - 105;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getAdditionalDepotScheduleNumber1());
+
+		n = 112 - 111;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, "");
+
+		n = 118 - 112;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getAdditionalDepotScheduleNumber2());
+
+		n = 119 - 118;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, "");
+
+		n = 125 - 119;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getAdditionalDepotScheduleNumber3());
+
+		n = 126 - 125;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, "");
+
+		n = 132 - 126;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getAdditionalDepotScheduleNumber4());
+
+		n = 133 - 132;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, "");
+
+		n = 139 - 133;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getCurtainRoute());
+
+		n = 146 - 139;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getStatisticalRoute());
+
+		n = 153 - 146;
+		formater = "%-"+ n + "s";
+		out += String.format(formater, this.getHolidayCode());
+
+
+		return out;
 	}
 }
 
