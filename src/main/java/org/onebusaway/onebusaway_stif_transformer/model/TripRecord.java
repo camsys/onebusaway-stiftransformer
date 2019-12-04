@@ -377,12 +377,12 @@ public class TripRecord implements StifRecord {
 
 
 		n = 65 - 59;
-		formatter = "%-"+ n + "s";
+		formatter = "%"+ n + "s";
 		out += String.format(formatter,this.getMidtripReliefRunNumber());
 
 
 		n = 71 - 65;
-		formatter = "%-"+ n + "s";
+		formatter = "%"+ n + "s";
 		out += String.format(formatter,this.getMidtripReliefRunRoute());
 
 
@@ -426,10 +426,10 @@ public class TripRecord implements StifRecord {
 
 		n = 93 - 92;
 		formatter = "%-"+ n + "s";
-		out += String.format(formatter,"");
+		out += String.format(formatter,this.getPrimaryReliefStatus());
 
 		n = 99 - 93;
-		formatter = "%-"+ n + "s";
+		formatter = "%"+ n + "s";
 		out += String.format(formatter,this.getNextOperatorRunNumber());
 
 

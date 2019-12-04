@@ -56,7 +56,7 @@ public class StifPrinterImpl {
                     File holidayFolder = new File(address.concat("/holiday"));
                     Boolean madeholidayFolder = holidayFolder.mkdir();
                     if (madeholidayFolder) {
-                        printer.printToDirectory(support, holidayFolder);
+                        printer.printToDirectory(holidaySupport, holidayFolder);
                     }
                 }
             }

@@ -124,7 +124,11 @@ public class TripRecordFactory extends StifRecordFactory<TripRecord> {
           record.setLastTripInSequence(getStringData());
         }
       }),
-      new FieldDef(93 - 92, "primary relief status", null),
+      new FieldDef(93 - 92, "primary relief status", new TripFieldSetter() {
+          public void setField(TripRecord record) {
+              record.setPrimaryReliefStatus(getStringData());
+          }
+      }),
       new FieldDef(99 - 93, "next operator run number", new TripFieldSetter() {
           public void setField(TripRecord record) {
               record.setNextOperatorRunNumber(getStringData());

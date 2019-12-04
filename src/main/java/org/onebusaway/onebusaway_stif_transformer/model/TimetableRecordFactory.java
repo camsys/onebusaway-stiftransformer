@@ -50,12 +50,12 @@ public class TimetableRecordFactory extends StifRecordFactory<TimetableRecord> {
 					record.setServiceCode(getStringData());
 				}
 			}),
-			new FieldDef(41 - 17, "depot description", new TimetableFieldSetter() {
+			new FieldDef(42 - 17, "depot description", new TimetableFieldSetter() {
 				public void setField(TimetableRecord record) {
 					record.setDepotDescription(getStringData());
 				}
 			}),
-			new FieldDef(65 - 41, "route description", new TimetableFieldSetter() {
+			new FieldDef(65 - 42, "route description", new TimetableFieldSetter() {
 				public void setField(TimetableRecord record) {
 					record.setRouteDescription(getStringData());
 				}

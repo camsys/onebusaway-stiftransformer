@@ -259,11 +259,11 @@ public class TimetableRecord implements StifRecord {
 		formater = "%-"+ n + "s";
 		out += String.format(formater, this.getServiceCode());
 
-		n = 41 - 17;
+		n = 42 - 17;
 		formater = "%-"+ n + "s";
 		out += String.format(formater, this.getDepotDescription());
 
-		n = 65 - 41;
+		n = 65 - 42;
 		formater = "%-"+ n + "s";
 		out += String.format(formater, this.getRouteDescription());
 
