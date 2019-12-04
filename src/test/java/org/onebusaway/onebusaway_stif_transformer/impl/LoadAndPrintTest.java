@@ -26,9 +26,19 @@ public class LoadAndPrintTest {
         printer.printBorough();
     }
 
+    public void print(String to,StifSupport support,StifSupport holidaySupport){
+        StifPrinterImpl printer = new StifPrinterImpl();
+        printer.setAddress(to);
+        printer.setSupport(support);
+        printer.setHolidaySupport(holidaySupport);
+        printer.printBorough();
+    }
+
     @Test
     public void loadAndPrint(){
-        StifSupport support = load("/Users/caylasavitzky/Desktop/QUCOL");
-        print("/Users/caylasavitzky/Downloads/demo", support);
+
+        StifSupport support = load("/Users/caylasavitzky/Downloads/testing/SIPD9");
+        StifSupport holidaySupport = load("/Users/caylasavitzky/Downloads/testing/SIDAT S9");
+        print("/Users/caylasavitzky/Downloads/demo", support, holidaySupport);
     }
 }
