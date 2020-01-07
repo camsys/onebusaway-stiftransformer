@@ -5,9 +5,7 @@ import org.json.JSONObject;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 
 public class StifTransformFactory {
@@ -86,92 +84,24 @@ public class StifTransformFactory {
         }
     }
 
-
-    private void handleUpdateOperation(String line, JSONObject json)
-            throws JSONException, TransformSpecificationException {
-
-        EntitiesTransformStrategy strategy = getStrategy(EntitiesTransformStrategy.class);
-
-        TypedEntityMatch match = getMatch(line, json);
-
-        if (json.has("factory")) {
-            String factoryType = json.getString("factory");
-            try {
-                Class<?> clazz = Class.forName(factoryType);
-                Object factoryObj = clazz.newInstance();
-                if (!(factoryObj instanceof EntityTransformStrategy)) {
-                    throw new TransformSpecificationException(
-                            "factory object is not an instance of EntityTransformStrategy: "
-                                    + clazz.getName(), line);
-                }
-                strategy.addModification(match, (EntityTransformStrategy) factoryObj);
-            } catch (Throwable ex) {
-                throw new TransformSpecificationException(
-                        "error creating factory ModificationStrategy instance", ex, line);
-            }
-            return;
-        }
-
-        if (json.has(ARG_UPDATE)) {
-
-            JSONObject update = json.getJSONObject(ARG_UPDATE);
-
-            EntityTransformStrategy mod = getUpdateEntityTransformStrategy(line,
-                    match, update);
-
-            strategy.addModification(match, mod);
-        }
-
-        if (json.has("strings")) {
-
-            JSONObject strings = json.getJSONObject("strings");
-
-            Map<String, Pair<String>> replacements = getEntityPropertiesAndStringReplacementsFromJsonObject(
-                    match.getType(), strings);
-            StringModificationStrategy mod = new StringModificationStrategy(
-                    replacements);
-
-            strategy.addModification(match, mod);
-        }
+    private void handleUpdateOperation(String line, JSONObject json) throws TransformSpecificationException, JSONException{
+        List<TypedEntityMatch> matches = getMatches(line,json, ARG_MATCH);
+        List<TypedEntityMatch> changes = getMatches(line, json, ARG_UPDATE);
+        UpdateStrategy update = new UpdateStrategy(matches,changes);
+        _transformer.addTransform(update);
     }
 
-    @SuppressWarnings("unchecked")
-    private <T extends StifTransformStrategy> T getStrategy(
-            Class<T> transformerType) {
-
-        StifTransformStrategy lastTransform = _transformer.getLastTransform();
-
-        if (lastTransform != null
-                && transformerType.isAssignableFrom(lastTransform.getClass()))
-            return (T) lastTransform;
-
-        T strategy = (T) instantiate(transformerType);
-        _transformer.addTransform(strategy);
-        return strategy;
-    }
-
-    private Object instantiate(Class<?> entityClass) {
-        try {
-            return entityClass.newInstance();
-        } catch (Exception ex) {
-            throw new IllegalStateException("error instantiating type: "
-                    + entityClass.getName());
-        }
+    private List<TypedEntityMatch> getMatches(String line,JSONObject json, String jsonKey) throws TransformSpecificationException, JSONException {
+        Class<?> thisClass = getEntityClassFromJsonSpec(line,json);
+        JSONObject jsonSubsection = json.getJSONObject(jsonKey);
+        ArrayList<TypedEntityMatch> matches = new ArrayList<TypedEntityMatch>();
+        // for key in json run getMatch
+        matches.add(getMatch(thisClass, jsonSubsection));
+        return matches;
     }
 
 
-    private TypedEntityMatch getMatch(String line, JSONObject json)
-            throws JSONException, TransformSpecificationException {
-
-        if (!json.has(ARG_MATCH)) {
-            throw new TransformSpecificationMissingArgumentException(line, ARG_MATCH);
-        }
-        JSONObject match = json.getJSONObject(ARG_MATCH);
-
-        Class<?> entityType = getEntityClassFromJsonSpec(line, match);
-        if (entityType == null) {
-            throw new TransformSpecificationMissingArgumentException(line);
-        }
+    private TypedEntityMatch getMatch(Class<?> entityType, JSONObject match) {
 
         Map<String, DeferredValueMatcher> propertyMatches = getPropertyValueMatchersFromJsonObject(
                 match, _excludeForMatchSpec);
@@ -196,6 +126,8 @@ public class StifTransformFactory {
 
         return new TypedEntityMatch(entityType, new EntityMatchCollection(matches));
     }
+
+
 
     private Class<?> getEntityClassFromJsonSpec(String line, JSONObject objectSpec)
             throws JSONException, TransformSpecificationException,
@@ -230,4 +162,5 @@ public class StifTransformFactory {
             return null;
         }
     }
+
 }

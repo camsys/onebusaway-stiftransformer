@@ -61,10 +61,10 @@ public class StifPrinterImpl {
                 }
             }
             else{
-                System.out.print("Could not make home directory");
+                System.out.println("Could not make home directory");
             }
         }
-        System.out.print("printing complete");
+        System.out.println("printing complete");
     }
 
 

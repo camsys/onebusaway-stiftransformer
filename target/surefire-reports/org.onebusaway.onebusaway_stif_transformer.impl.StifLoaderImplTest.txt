@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: org.onebusaway.onebusaway_stif_transformer.impl.StifLoaderImplTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.457 sec

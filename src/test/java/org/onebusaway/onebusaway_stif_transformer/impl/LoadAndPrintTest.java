@@ -37,8 +37,9 @@ public class LoadAndPrintTest {
     @Test
     public void loadAndPrint(){
 
-        StifSupport support = load("/Users/caylasavitzky/Downloads/testing/SIPD9");
-        StifSupport holidaySupport = load("/Users/caylasavitzky/Downloads/testing/SIDAT S9");
-        print("/Users/caylasavitzky/Downloads/demo", support, holidaySupport);
+        StifSupport support = load("/Users/caylasavitzky/Downloads/stifs_bronx");
+        //StifSupport holidaySupport = load("/Users/caylasavitzky/Downloads/testing/SIDAT S9");
+        //print("/Users/caylasavitzky/Downloads/demo", support, holidaySupport);
+        print("/Users/caylasavitzky/Downloads/demo", support);
     }
 }
