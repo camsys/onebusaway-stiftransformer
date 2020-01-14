@@ -4,9 +4,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.*;
+import org.onebusaway.onebusaway_stif_transformer.model.*;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 public class StifTransformFactory {
 
@@ -21,7 +24,7 @@ public class StifTransformFactory {
 
     public StifTransformFactory(StifTransformer transformer) {
         _transformer = transformer;
-        addEntityPackage("org.onebusaway.gtfs.model");
+        addEntityPackage("org.onebusaway.onebusaway_stif_transformer.model");
     }
 
     public void addEntityPackage(String entityPackage) {
@@ -81,50 +84,65 @@ public class StifTransformFactory {
                 throw new TransformSpecificationException("error parsing json", ex,
                         line);
             }
+            _transformer.run();
         }
     }
 
     private void handleUpdateOperation(String line, JSONObject json) throws TransformSpecificationException, JSONException{
-        List<TypedEntityMatch> matches = getMatches(line,json, ARG_MATCH);
-        List<TypedEntityMatch> changes = getMatches(line, json, ARG_UPDATE);
+        JSONObject jsonSubsection = json.getJSONObject(ARG_MATCH);
+        Class<?> entityType = getEntityClassFromJsonSpec(line,jsonSubsection);
+        List<TypedEntityMatch> matches = getMatches(line,json, ARG_MATCH,entityType);
+        List<TypedEntityMatch> changes = getMatches(line,json, ARG_UPDATE,entityType);
         UpdateStrategy update = new UpdateStrategy(matches,changes);
         _transformer.addTransform(update);
     }
 
-    private List<TypedEntityMatch> getMatches(String line,JSONObject json, String jsonKey) throws TransformSpecificationException, JSONException {
-        Class<?> thisClass = getEntityClassFromJsonSpec(line,json);
-        JSONObject jsonSubsection = json.getJSONObject(jsonKey);
+    private List<TypedEntityMatch> getMatches(String line,JSONObject json, String actionKey, Class<?> entityType) throws TransformSpecificationException, JSONException {
+        JSONObject jsonSubsection = json.getJSONObject(actionKey);
         ArrayList<TypedEntityMatch> matches = new ArrayList<TypedEntityMatch>();
+        Map<String,Method> methodsByName = getMethodsByName(entityType);
         // for key in json run getMatch
-        matches.add(getMatch(thisClass, jsonSubsection));
+        for(Iterator<String> keys = jsonSubsection.sortedKeys(); keys.hasNext();){
+            String key = keys.next();
+            if (!key.equals(ARG_CLASS)) {
+                matches.add(getMatch(entityType, jsonSubsection, key, methodsByName, line, actionKey));
+            }
+        }
         return matches;
     }
 
+    private Map<String,Method> getMethodsByName(Class<?> entityType){
+        if (entityType==null){
+            return null;
+        }
+        Collection<Method> methods = Arrays.asList(entityType.getMethods());
+        Map<String,Method> methodsByName = new HashMap<>();
+        for (Method method : methods){
+            methodsByName.put(method.getName(),method);
+        }
+        return methodsByName;
+        //Collection methodsNames = methods.stream().map(Method::getName).collect(Collectors.toSet());
+    }
 
-    private TypedEntityMatch getMatch(Class<?> entityType, JSONObject match) {
 
-        Map<String, DeferredValueMatcher> propertyMatches = getPropertyValueMatchersFromJsonObject(
-                match, _excludeForMatchSpec);
-
-        List<EntityMatch> matches = new ArrayList<EntityMatch>();
-
-        for (Map.Entry<String, DeferredValueMatcher> entry : propertyMatches.entrySet()) {
-            String property = entry.getKey();
-            Matcher m = _anyMatcher.matcher(property);
-            if (m.matches()) {
-                PropertyPathCollectionExpression expression = new PropertyPathCollectionExpression(
-                        m.group(1));
-                expression.setPropertyMethodResolver(_propertyMethodResolver);
-                matches.add(new PropertyAnyValueEntityMatch(expression,
-                        entry.getValue()));
-            } else {
-                PropertyPathExpression expression = new PropertyPathExpression(property);
-                expression.setPropertyMethodResolver(_propertyMethodResolver);
-                matches.add(new PropertyValueEntityMatch(expression, entry.getValue()));
-            }
+    private TypedEntityMatch getMatch(Class<?> entityType, JSONObject jsonSubsection, String key, Map<String,Method> methodsByName, String line, String action)
+            throws JSONException, TransformSpecificationException {
+        String property = jsonSubsection.getString(key);
+        //capitalize first letter of property
+        String uppercaseKey = key.substring(0,1).toUpperCase() + key.substring(1);
+        Method getMethod = methodsByName.get("get"+uppercaseKey);
+        Method setMethod = methodsByName.get("set"+uppercaseKey);
+        if(getMethod != null && action==ARG_MATCH){
+            return new TypedEntityMatch(entityType, getMethod,property);
+        }
+        else if(setMethod !=null && action==ARG_UPDATE){
+            return new TypedEntityUpdate(entityType, getMethod, setMethod,property);
+        }
+        else{
+            throw new TransformSpecificationException("unknown class property combination: " + entityType.getName() + "/" + key, line);
         }
 
-        return new TypedEntityMatch(entityType, new EntityMatchCollection(matches));
+
     }
 
 
@@ -138,6 +156,7 @@ public class StifTransformFactory {
         return null;
     }
 
+    //tries to return a class with an object of name: name. It looks inside of model for that class.
     private Class<?> getEntityTypeForName(String line, String name)
             throws TransformSpecificationException {
 

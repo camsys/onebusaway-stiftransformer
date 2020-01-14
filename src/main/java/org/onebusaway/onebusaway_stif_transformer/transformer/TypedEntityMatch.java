@@ -1,23 +1,37 @@
 package org.onebusaway.onebusaway_stif_transformer.transformer;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class TypedEntityMatch implements EntityMatch {
     private Class<?> _type;
-    private EntityMatch _match;
+    private Method _getMethod;
+    private String _value;
 
-    public TypedEntityMatch(Class<?> type, EntityMatch match) {
+    public TypedEntityMatch(Class<?> type, Method getMethod, String value) {
         _type = type;
-        _match = match;
+        _getMethod = getMethod;
+        _value = value;
     }
 
     public Class<?> getType() {
         return _type;
     }
-
-    public EntityMatch getPropertyMatches() {
-        return _match;
-    }
-
     public boolean isApplicableToObject(Object object) {
-        return _match.isApplicableToObject(object);
+        Class objectClass = object.getClass();
+        try {
+            if(objectClass.equals(_type)
+                    && objectClass.getMethod(_getMethod.getName(),_getMethod.getParameterTypes()).equals(_getMethod)){
+                if(_value.equals((String) _getMethod.invoke(object))) {
+                    return true;
+                }
+            }
+        } catch (NoSuchMethodException e) {
+            return false;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

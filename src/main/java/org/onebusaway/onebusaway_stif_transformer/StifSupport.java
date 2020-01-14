@@ -55,6 +55,10 @@ public class StifSupport {
     recordsByLineNumber = new ArrayList<StifRecord>();
   }
 
+  /*public Collection<ArrayList<StifRecord>> getAllStifRecords() {
+
+  }*/
+
   public Map<String,ArrayList<StifRecord>> getStifFileRecordsForFileId(){
     return stifFileRecordsForFileId;
   }

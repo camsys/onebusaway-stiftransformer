@@ -6,6 +6,7 @@ public class TransformSpecificationException extends Exception {
 
     private final String line;
 
+
     public TransformSpecificationException(String message, String line) {
         super(message);
         this.line = line;
