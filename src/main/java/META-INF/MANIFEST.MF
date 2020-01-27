@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Created-By: 1.8
+Main-Class: org.onebusaway.onebusaway_stif_transformer.StifTransformerMain

@@ -15,12 +15,9 @@
  */
 package org.onebusaway.onebusaway_stif_transformer;
 
+import java.io.File;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 import org.onebusaway.onebusaway_stif_transformer.model.*;
@@ -45,6 +42,9 @@ public class StifSupport {
   private Map<String, ArrayList<EventRecord>> eventRecordForTripId = new HashMap<String, ArrayList<EventRecord>>();
   private Map<String, SignCodeRecord> signCodeRecordForSignCode =  new HashMap<String, SignCodeRecord>();
   private Map<String, ControlRecord> controlRecordForFileId = new HashMap<String, ControlRecord>();
+  private ArrayList<File> paths = new ArrayList<>();
+  private Map<String, File> stifFilePathsForFileNames = new HashMap<String, File>();
+  private Set<File> stifFilePathsParents = new HashSet<>();
 
   public static ServiceCode scheduleIdForGtfsDayCode(String dayCode) {
     return ServiceCode.getServiceCodeForId(dayCode);
@@ -81,6 +81,10 @@ public class StifSupport {
     timetableRecordForFileId.put(fileId,timetableRecord);
   }
 
+  public Map<String, TimetableRecord> getTimetableRecordForFileId() {
+    return timetableRecordForFileId;
+  }
+
   public SignCodeRecord getSignCodeRecordForSignCode(String signCode) {
     return signCodeRecordForSignCode.get(signCode);
   }
@@ -105,6 +109,27 @@ public class StifSupport {
   public void putControlRecordForFileId(String fileId, ControlRecord controlRecord){
     printDuplicate(controlRecordForFileId.get(fileId));
     controlRecordForFileId.put(fileId,controlRecord);
+  }
+
+  public File getStifFilePathForFileName(String fileName) {
+    return stifFilePathsForFileNames.get(fileName);
+  }
+
+  public void putStifFilePathsForFileNames(String fileName, File stifFilePath) {
+    this.stifFilePathsForFileNames.put(fileName,stifFilePath);
+    this.stifFilePathsParents.add(stifFilePath.getParentFile());
+  }
+
+  public Collection<File> getStifFilePaths(){
+    return stifFilePathsForFileNames.values();
+  }
+
+  public Set<String> getStifFileNames(){
+    return stifFilePathsForFileNames.keySet();
+  }
+
+  public Set<File> getStifFilePathsParents(){
+    return stifFilePathsParents;
   }
 
   /****

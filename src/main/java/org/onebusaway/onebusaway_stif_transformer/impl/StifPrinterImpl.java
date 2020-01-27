@@ -23,55 +23,86 @@ public class StifPrinterImpl {
 
 
 
+
     // for unit tests
-    private StifSupport support = null;
-    private StifSupport holidaySupport = null;
-    private String address = null;
+    private String homePath = null;
     private StifPrinter printer = new StifPrinter();
+    private static int ARG_NON_HOLIDAY_PATH = 0;
 
-    public void setSupport(StifSupport support) {
-        this.support = support;
+    private HashMap<String,StifSupport> _supportsByFile;
+
+    public void setAddress(String homePath) {
+        this.homePath = homePath;
     }
 
-    public void setHolidaySupport(StifSupport holidaySupport) {
-        this.holidaySupport = holidaySupport;
+    public void addSupportByFile(String file, StifSupport support){
+        _supportsByFile.put(file,support);
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setSupportsByFile(HashMap<String, StifSupport> supportsByFile) {
+        _supportsByFile = supportsByFile;
     }
 
-
-    public void printBorough() {
-        if (support != null && address != null) {
-            File homeFolder = new File(address);
-            Boolean madeHomeDir = homeFolder.mkdir();
-            if (madeHomeDir) {
-                File nonHolidayFolder = new File(address.concat("/non_holiday"));
-                Boolean madeNonHolidayFolder = nonHolidayFolder.mkdir();
-                if (madeNonHolidayFolder) {
-                    printer.printToDirectory(support, nonHolidayFolder);
-                }
-                if (holidaySupport != null) {
-                    File holidayFolder = new File(address.concat("/holiday"));
-                    Boolean madeholidayFolder = holidayFolder.mkdir();
-                    if (madeholidayFolder) {
-                        printer.printToDirectory(holidaySupport, holidayFolder);
-                    }
-                }
-            }
-            else{
-                System.out.println("Could not make home directory");
+    public void print() {
+        File outputPath = new File(homePath);
+        Boolean madeHomeDir = outputPath.mkdir();
+        if (madeHomeDir || true) {
+            for(Map.Entry<String, StifSupport> entry : _supportsByFile.entrySet()){
+                File sourcePath = new File(entry.getKey());
+                StifSupport support = entry.getValue();
+                printer.printToDirectory(entry.getValue(), sourcePath, outputPath);
             }
         }
-        System.out.println("printing complete");
+        else{
+            System.out.println("Could not make home directory");
+        }
+    }
+
+    public void printFormatForBoroughs(String[] inputPaths){
+        File outputPath = new File(homePath);
+        Boolean madeHomeDir = outputPath.mkdir();
+        if (madeHomeDir || true) {
+            for(Map.Entry<String, StifSupport> entry : _supportsByFile.entrySet()){
+                String path = entry.getKey();
+                StifSupport stifSupport = entry.getValue();
+                printer.printToDirectoryBoroughsFormat(stifSupport, outputPath);
+            }
+        }
+        else{
+            System.out.println("Could not make home directory");
+        }
+    }
+
+    public void printListOfBoroughsAndRoutes() {
+        File outputPath = new File(homePath);
+        Boolean madeHomeDir = outputPath.mkdir();
+        if (madeHomeDir || true) {
+            for(Map.Entry<String, StifSupport> entry : _supportsByFile.entrySet()){
+                File sourcePath = new File(entry.getKey());
+                StifSupport support = entry.getValue();
+                printer.printBoroughsAndRoutes(entry.getValue(), outputPath, sourcePath.getName());
+            }
+        }
+        else{
+            System.out.println("Could not make home directory");
+        }
+    }
+
+    private String getHolidayFolderNameSufix(String[] inputPaths){
+        /*for(Map.Entry<String, StifSupport> entry : _supportsByFile.entrySet()) {
+            String[] key = entry.getKey().split("/");
+        }*/
+        return "";
     }
 
 
-
-
-    public static void main(){
-
+    private File updateOutputLocationForDirectoryStructure(File outputPath, File startPath, File endPath){
+        if (!startPath.getAbsolutePath().equals(endPath.getAbsolutePath())){
+            updateOutputLocationForDirectoryStructure(outputPath, startPath,endPath.getParentFile());
+            File childDir = new File(outputPath.getAbsolutePath() + "/"+ endPath.getName());
+            childDir.mkdir();
+            return childDir;
+        }
+        return startPath;
     }
-
 }

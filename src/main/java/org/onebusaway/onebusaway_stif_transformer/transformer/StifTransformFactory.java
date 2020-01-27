@@ -84,7 +84,6 @@ public class StifTransformFactory {
                 throw new TransformSpecificationException("error parsing json", ex,
                         line);
             }
-            _transformer.run();
         }
     }
 

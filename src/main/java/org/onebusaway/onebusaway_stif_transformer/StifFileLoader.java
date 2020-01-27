@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
+import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.core.ZipFile;
 
 
 import org.onebusaway.onebusaway_stif_transformer.model.EventRecord;
@@ -78,6 +80,7 @@ public class StifFileLoader {
     StifRecordReader reader;
     String[] tmp = path.toString().split("/");
     String fileName = tmp[tmp.length-1];
+    support.putStifFilePathsForFileNames(fileName, path);
     int lineNumber = 0;
     TripRecord tripRecord = null;
     try {
