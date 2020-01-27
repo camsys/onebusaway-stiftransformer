@@ -19,7 +19,7 @@ public class StifBoroughCategorizorTest {
     @Test
     public void testStifBoroughCategorizor(){
         StifBoroughCategorizor stifBoroughCategorizor = new StifBoroughCategorizor();
-        stifBoroughCategorizor.initialize();
+        //stifBoroughCategorizor.initialize();
 
     }
 }

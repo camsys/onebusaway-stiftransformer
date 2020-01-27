@@ -1,21 +1,22 @@
 package org.onebusaway.onebusaway_stif_transformer;
 
+import org.onebusaway.onebusaway_stif_transformer.model.TimetableRecord;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class StifBoroughCategorizor {
 
-    private static String[] boroughByRoutesPaths = new String[]{"routes_manhattan.txt"};
-    private ArrayList<Set> boroughsByRoutes;
+    private static String[] routesByBoroughPaths = new String[]{"staten"};
+    private ArrayList<Set> routesInBoroughs;
+    Collection<String> stifRoutes = new HashSet<String>();
+    boolean isHoliday;
 
-    public void initialize() {
-        for (String path : boroughByRoutesPaths) {
-            HashSet<String> boroughByRoutes = new HashSet<String>();
+    public void initialize(StifSupport stifSupport) {
+        for (String path : routesByBoroughPaths) {
+            HashSet<String> routesInBorough = new HashSet<String>();
             ClassLoader c = getClass().getClassLoader();
             URL g = getClass().getClassLoader().getResource(path);
             String n = getClass().getClassLoader().getResource(path).getFile();
@@ -24,18 +25,44 @@ public class StifBoroughCategorizor {
             try {
                 Scanner sc = new Scanner(file);
                 while (sc.hasNextLine())
-                    boroughByRoutes.add(sc.nextLine());
+                    routesInBorough.add(sc.nextLine());
             } catch (FileNotFoundException exception) {
                 System.out.print("Cannot find resource: boroughsAndRoutes.txt: " + path + ". This will create errors in categorizing by borough");
             }
+            routesInBoroughs.add(routesInBorough);
+        }
+
+        int countOfHolidayRecords = 0;
+        int countOfNonHolidayRecords = 0;
+        Map<String, TimetableRecord> timetableRecordsForFileId = stifSupport.getTimetableRecordForFileId();
+        for (Map.Entry<String,TimetableRecord> entry : timetableRecordsForFileId.entrySet()){
+            TimetableRecord record = entry.getValue();
+            stifRoutes.add(record.getBoroughCode() + record.getRouteIdentifier());
+            if(record.getHolidayCode().equals("")){
+                countOfNonHolidayRecords++;
+            }
+            else{
+                countOfHolidayRecords++;
+            }
+        }
+        if (!(countOfHolidayRecords == 0 || countOfNonHolidayRecords==0)){
+
         }
     }
 
-    public String categorizeByBorough(StifSupport stifSupport){
+    public String categorizeByBorough(){
+        /*Collection<String> stifRoutes = new HashSet<String>();
+        Map<String, TimetableRecord> timetableRecordsForFileId = stifSupport.getTimetableRecordForFileId();
+        for (Map.Entry<String,TimetableRecord> entry : timetableRecordsForFileId.entrySet()){
 
+        }
+
+        for(Set routesInBorough: routesInBoroughs){
+
+        }*/
         return "";
     }
-    public String categorizeByHolidayStatus(StifSupport stifSupport){
+    public String categorizeByHolidayStatus(){
 
         return "";
     }

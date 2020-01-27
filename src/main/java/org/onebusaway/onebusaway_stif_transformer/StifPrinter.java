@@ -39,9 +39,9 @@ public class StifPrinter {
 
     public void printToDirectoryBoroughsFormat(StifSupport support, File outputPath){
         StifBoroughCategorizor stifBoroughCategorizor = new StifBoroughCategorizor();
-        stifBoroughCategorizor.initialize();
-        String stifBorough = stifBoroughCategorizor.categorizeByBorough(support);
-        String stifHolidayStatus = stifBoroughCategorizor.categorizeByHolidayStatus(support);
+        stifBoroughCategorizor.initialize(support);
+        String stifBorough = stifBoroughCategorizor.categorizeByBorough();
+        String stifHolidayStatus = stifBoroughCategorizor.categorizeByHolidayStatus();
 
         String stifOutputPath = outputPath.getAbsolutePath() + ARG_FILE_DELIMETER + stifBorough +  ARG_FILE_DELIMETER + stifHolidayStatus;
         File stifOutputFolder = new File(stifOutputPath);
