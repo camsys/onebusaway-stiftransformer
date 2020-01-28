@@ -46,24 +46,32 @@ public class StifBoroughCategorizor {
             }
         }
         if (!(countOfHolidayRecords == 0 || countOfNonHolidayRecords==0)){
-
+            throw new Error("Directory contains both holiday and nonholiday files!");
+        }
+        else if (countOfHolidayRecords > 1){
+            isHoliday = true;
+        }
+        else if (countOfNonHolidayRecords > 1){
+            isHoliday = false;
         }
     }
 
     public String categorizeByBorough(){
-        /*Collection<String> stifRoutes = new HashSet<String>();
-        Map<String, TimetableRecord> timetableRecordsForFileId = stifSupport.getTimetableRecordForFileId();
-        for (Map.Entry<String,TimetableRecord> entry : timetableRecordsForFileId.entrySet()){
-
+        borough: for(Set routesInBorough: routesInBoroughs){
+            for (String route : stifRoutes){
+                if (!routesInBorough.contains(route)){
+                    break borough;
+                }
+            }
         }
-
-        for(Set routesInBorough: routesInBoroughs){
-
-        }*/
         return "";
     }
     public String categorizeByHolidayStatus(){
-
-        return "";
+        if (isHoliday){
+            return "holiday";
+        }
+        else{
+            return "non_holiday";
+        }
     }
 }

@@ -55,7 +55,6 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-deploy-plugin</artifactId>
             <configuration>
-                <skip>${skip-deploy-onebusaway-stif-transformer-cli-jar}</skip>
             </configuration>
         </plugin>
     </plugins>
@@ -65,7 +64,6 @@
 <profile>
     <id>oss-distribution</id>
     <properties>
-        <skip-deploy-onebusaway-stif-transformer-cli-jar>true</skip-deploy-onebusaway-stif-transformer-cli-jar>
     </properties>
 </profile>
 </profiles>
