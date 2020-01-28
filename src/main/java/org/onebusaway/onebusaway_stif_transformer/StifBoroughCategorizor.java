@@ -2,14 +2,13 @@ package org.onebusaway.onebusaway_stif_transformer;
 
 import org.onebusaway.onebusaway_stif_transformer.model.TimetableRecord;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
 public class StifBoroughCategorizor {
 
-    private static String[] routesByBoroughPaths = new String[]{"staten"};
+    private static String[] routesByBoroughPaths = new String[]{"staten.txt"};
     private ArrayList<Set> routesInBoroughs;
     Collection<String> stifRoutes = new HashSet<String>();
     boolean isHoliday;
@@ -17,6 +16,22 @@ public class StifBoroughCategorizor {
     public void initialize(StifSupport stifSupport) {
         for (String path : routesByBoroughPaths) {
             HashSet<String> routesInBorough = new HashSet<String>();
+
+            InputStream is = getClass().getResourceAsStream(path);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+            String line = null;
+                try {
+                    while ((line = reader.readLine()) != null) {
+                        System.err.println(line);
+                    }
+
+                    reader.close();
+                }
+                catch(Exception e) {
+
+        }
+
             ClassLoader c = getClass().getClassLoader();
             URL g = getClass().getClassLoader().getResource(path);
             String n = getClass().getClassLoader().getResource(path).getFile();

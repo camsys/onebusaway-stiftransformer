@@ -1,4 +1,5 @@
 package org.onebusaway.onebusaway_stif_transformer;
+import org.junit.Ignore;
 import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +20,8 @@ import org.onebusaway.onebusaway_stif_transformer.transformer.TransformSpecifica
 
 
 public class StifBoroughCategorizorTest {
-    @Test
+
+    /*@Test
     public void testStifBoroughCategorizor(){
         StifLoaderImpl stifLoader = new StifLoaderImpl();
         File stifsPath = new File("/Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/src/test/resources/stifs_mtabc");
@@ -33,5 +35,5 @@ public class StifBoroughCategorizorTest {
             stifBoroughCategorizor.initialize(entry.getValue());
         }
 
-    }
+    }*/
 }
