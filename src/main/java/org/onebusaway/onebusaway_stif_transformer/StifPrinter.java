@@ -17,25 +17,15 @@ import org.onebusaway.onebusaway_stif_transformer.StifTrip;
 import org.onebusaway.onebusaway_stif_transformer.StifFileLoader;
 import org.onebusaway.onebusaway_stif_transformer.StifSupport;
 import org.onebusaway.onebusaway_stif_transformer.model.ServiceCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class StifPrinter {
 
+    private static Logger _log = LoggerFactory.getLogger(StifPrinter.class);
     private static String ARG_NON_HOLIDAY = "non_holiday";
     private static String ARG_FILE_DELIMETER = "/";
-
-/*    public void printToDirectoryBoroughsFormat(StifSupport support, File outputPath){
-        if (outputPath.isDirectory()) {
-            Map<String,ArrayList<StifRecord>> mapOfStifRecords = support.getStifFileRecordsForFileId();
-
-            for (Map.Entry<String,ArrayList<StifRecord>> stifRecordEntry:mapOfStifRecords.entrySet()) {
-                printStifRecords(outputPath,stifRecordEntry.getKey(),stifRecordEntry.getValue());
-            }
-        }
-        else {
-            System.out.print("file is not directory");
-        }
-    }*/
 
     public void printToDirectoryBoroughsFormat(StifSupport support, File outputPath){
         StifBoroughCategorizor stifBoroughCategorizor = new StifBoroughCategorizor();
@@ -49,32 +39,8 @@ public class StifPrinter {
 
         for (Map.Entry<String,ArrayList<StifRecord>> stifRecordEntry: support.getStifFileRecordsForFileId().entrySet()) {
             File stifPath = support.getStifFilePathForFileName(stifRecordEntry.getKey());
-            printStifRecords(outputPath, stifRecordEntry.getKey(), stifRecordEntry.getValue());
+            printStifRecords(stifOutputFolder, stifRecordEntry.getKey(), stifRecordEntry.getValue());
         }
-
-        /*File outputPath;
-
-        Map<String,ArrayList<StifRecord>> mapOfStifRecords = support.getStifFileRecordsForFileId();
-        boolean stifHaveOneParentFolder = false;
-        if (support.getStifFilePathsParents().size() == 1)
-        { stifHaveOneParentFolder = true;}
-        for (Map.Entry<String,ArrayList<StifRecord>> stifRecordEntry:mapOfStifRecords.entrySet()) {
-            File stifPath = support.getStifFilePathForFileName(stifRecordEntry.getKey());
-            if (stifHaveOneParentFolder || stifPath.getParentFile().getName().equalsIgnoreCase(ARG_NON_HOLIDAY)){
-                outputPath = nonHolidayOutputPath;
-            }
-            else {
-                outputPath = holidayOutputPath;
-            }
-
-
-            if (outputPath.isDirectory()) {
-                printStifRecords(outputPath,stifRecordEntry.getKey(),stifRecordEntry.getValue());
-            }
-            else {
-                System.out.print("file is not directory");
-            }
-        }*/
     }
 
     public void printToDirectory(StifSupport support, File sourcePath, File directory){
@@ -87,7 +53,7 @@ public class StifPrinter {
             }
         }
         else {
-            System.out.print("file is not directory");
+            _log.error("file is not directory" + directory.getAbsolutePath());
         }
     }
 
@@ -102,7 +68,7 @@ public class StifPrinter {
         printStrings(outputPath,"BoroughsAndRoutesFor_"+fileName+".txt", boroughsAndRoutes);
         }
         else {
-            System.out.print("file is not directory");
+            _log.error("file is not directory");
         }
     }
 
@@ -118,7 +84,7 @@ public class StifPrinter {
             writer.close();
         }
         catch (IOException exception){
-            System.out.print("Error in writing STIF File: " +fileName + "   " + exception.getMessage());
+            _log.error("Error in writing STIF File: " +fileName, exception);
         }
     }
 
@@ -134,7 +100,7 @@ public class StifPrinter {
             writer.close();
         }
         catch (IOException exception){
-            System.out.print("Error in writing STIF File: " +fileName + "   " + exception.getMessage());
+            _log.error("Error in writing STIF File: " +fileName,exception);
         }
     }
 
@@ -146,12 +112,5 @@ public class StifPrinter {
             return childDir;
         }
         return startPath;
-    }
-
-    private String getHolidayFolderNameSufix(Collection<File> inputPaths){
-        /*for(Map.Entry<String, StifSupport> entry : _supportsByFile.entrySet()) {
-            String[] key = entry.getKey().split("/");
-        }*/
-        return "";
     }
 }

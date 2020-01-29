@@ -14,13 +14,14 @@ import org.onebusaway.onebusaway_stif_transformer.StifFileLoader;
 import org.onebusaway.onebusaway_stif_transformer.StifSupport;
 import org.onebusaway.onebusaway_stif_transformer.model.GeographyRecord;
 import org.onebusaway.onebusaway_stif_transformer.model.ServiceCode;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class StifLoaderImpl {
 
 
-
+	private static Logger _log = LoggerFactory.getLogger(StifLoaderImpl.class);
 
 	private Boolean _excludeNonRevenue = true;
 	public void setExcludeNonRevenue(Boolean excludeNonRevenue) {
@@ -40,7 +41,7 @@ public class StifLoaderImpl {
 			FileUtils.deleteDirectory(workingDir);
 		}
 		catch (java.io.IOException exception){
-			System.out.print("Did not delete working directory: " + exception.toString());
+			_log.error("Did not delete working directory: ", exception);
 		}
 
 	}

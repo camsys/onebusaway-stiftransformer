@@ -21,8 +21,13 @@ import org.onebusaway.onebusaway_stif_transformer.transformer.TransformSpecifica
 
 public class StifBoroughCategorizorTest {
 
-    /*@Test
+    @Test
     public void testStifBoroughCategorizor(){
+
+        //ClassLoader classLoader = new StifBoroughCategorizorTest().getClass().getClassLoader();
+
+        //File file = new File(classLoader.getResource("stifs_mtabc").getFile());
+
         StifLoaderImpl stifLoader = new StifLoaderImpl();
         File stifsPath = new File("/Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/src/test/resources/stifs_mtabc");
         List<File> stifFiles = new ArrayList<>();
@@ -35,5 +40,5 @@ public class StifBoroughCategorizorTest {
             stifBoroughCategorizor.initialize(entry.getValue());
         }
 
-    }*/
+    }
 }

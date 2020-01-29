@@ -1,3 +1,4 @@
 /target/
 /.idea/
-/.iml/
+/onebusaway-stif-transformer.iml
+/onebusaway-stiftransformer-cli/onebusaway-stif-transformer-cli.iml

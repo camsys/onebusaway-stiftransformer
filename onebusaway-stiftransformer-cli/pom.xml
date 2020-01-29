@@ -30,6 +30,15 @@
 
     <build>
     <finalName>onebusaway-stif-transformer-cli</finalName>
+    <directory>target</directory>
+    <outputDirectory>target/classes</outputDirectory>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+        </resource>
+    </resources>
     <plugins>
         <plugin>
             <artifactId>maven-shade-plugin</artifactId>

@@ -1,8 +1,6 @@
 package org.onebusaway.onebusaway_stif_transformer_cli;
 
-import org.onebusaway.onebusaway_stif_transformer.impl.StifLoaderImpl;
-import org.onebusaway.onebusaway_stif_transformer.impl.StifTransformerSuite;
-import org.onebusaway.onebusaway_stif_transformer.transformer.StifTransformer;
+import org.onebusaway.onebusaway_stif_transformer.StifTransformerSuite;
 import org.onebusaway.onebusaway_stif_transformer.transformer.TransformSpecificationException;
 
 import java.io.IOException;
@@ -10,11 +8,8 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -112,7 +107,7 @@ public class StifTransformerMain {
         _log.info("output path: " + args[args.length - 2]);
         transformerSuite.setOutputPath(args[args.length - 2]);
         _log.info("Restructuring file archetecture: " + args[args.length - 1]);
-        transformerSuite.setOutputFormat(args[args.length - 1]);
+        //transformerSuite.setOutputFormat(args[args.length - 1]);
         transformerSuite.run();
     }
 

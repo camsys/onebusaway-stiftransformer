@@ -37,9 +37,13 @@ import org.onebusaway.onebusaway_stif_transformer.model.StifRecord;
 import org.onebusaway.onebusaway_stif_transformer.model.TimetableRecord;
 import org.onebusaway.onebusaway_stif_transformer.model.TripRecord;
 import org.onebusaway.onebusaway_stif_transformer.model.ControlRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class StifFileLoader {
+
+  private static Logger _log = LoggerFactory.getLogger(StifFileLoader.class);
 
 
   private StifSupport support = new StifSupport();
@@ -65,7 +69,7 @@ public class StifFileLoader {
 
   public void run(File path) {
     try {
-      System.out.println("Path is: " + path.toString());
+      _log.info("Path is: " + path.toString());
       InputStream in = new FileInputStream(path);
       if (path.getName().endsWith(".gz"))
         in = new GZIPInputStream(in);
@@ -76,7 +80,7 @@ public class StifFileLoader {
   }
 
   public void run(InputStream stream, File path) {
-    System.out.println("Path is: " + path.toString());
+    _log.info("Path is: " + path.toString());
     StifRecordReader reader;
     String[] tmp = path.toString().split("/");
     String fileName = tmp[tmp.length-1];
@@ -144,10 +148,5 @@ public class StifFileLoader {
   public StifSupport getSupport() {
     return support;
   }
-
-  public static void main(){
-    System.out.print("test");
-  }
-
 
 }

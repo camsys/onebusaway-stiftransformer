@@ -1,6 +1,8 @@
 package org.onebusaway.onebusaway_stif_transformer;
 
 import org.onebusaway.onebusaway_stif_transformer.model.TimetableRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URL;
@@ -8,12 +10,19 @@ import java.util.*;
 
 public class StifBoroughCategorizor {
 
-    private static String[] routesByBoroughPaths = new String[]{"staten.txt"};
-    private ArrayList<Set> routesInBoroughs;
+    private static Logger _log = LoggerFactory.getLogger(StifBoroughCategorizor.class);
+
+    private static String[] routesByBoroughPaths = new String[]{"mtabc_routes.txt","staten-island_routes.txt","brooklyn_routes.txt","bronx_routes.txt","manhattan_routes.txt","queens_routes.txt"};
+    private Map<String,Set> routesInBoroughs =  new HashMap<String,Set>();
     Collection<String> stifRoutes = new HashSet<String>();
+    String stifPathInfo;
     boolean isHoliday;
 
     public void initialize(StifSupport stifSupport) {
+        Iterator<File> it = stifSupport.getStifFilePathsParents().iterator();
+        if (it.hasNext()){
+            stifPathInfo = it.next().getAbsolutePath();
+        }
         for (String path : routesByBoroughPaths) {
             HashSet<String> routesInBorough = new HashSet<String>();
 
@@ -23,28 +32,16 @@ public class StifBoroughCategorizor {
             String line = null;
                 try {
                     while ((line = reader.readLine()) != null) {
-                        System.err.println(line);
+                        routesInBorough.add(line);
                     }
 
                     reader.close();
                 }
-                catch(Exception e) {
+                catch(IOException exception) {
+                    _log.error("Cannot find resource" + path, exception);
 
         }
-
-            ClassLoader c = getClass().getClassLoader();
-            URL g = getClass().getClassLoader().getResource(path);
-            String n = getClass().getClassLoader().getResource(path).getFile();
-            File file = new File(getClass().getClassLoader().getResource(path).getFile());
-            String tmp = file.getAbsolutePath();
-            try {
-                Scanner sc = new Scanner(file);
-                while (sc.hasNextLine())
-                    routesInBorough.add(sc.nextLine());
-            } catch (FileNotFoundException exception) {
-                System.out.print("Cannot find resource: boroughsAndRoutes.txt: " + path + ". This will create errors in categorizing by borough");
-            }
-            routesInBoroughs.add(routesInBorough);
+            routesInBoroughs.put(path,routesInBorough);
         }
 
         int countOfHolidayRecords = 0;
@@ -72,14 +69,19 @@ public class StifBoroughCategorizor {
     }
 
     public String categorizeByBorough(){
-        borough: for(Set routesInBorough: routesInBoroughs){
+        borough: for(Map.Entry<String,Set> entry: routesInBoroughs.entrySet()){
+            Set routesInBorough = entry.getValue();
+            boolean isBorough = true;
             for (String route : stifRoutes){
                 if (!routesInBorough.contains(route)){
-                    break borough;
+                    isBorough = false;
+                    break;
                 }
             }
+            if (isBorough)
+               return "stifs_" + entry.getKey().split("_")[0];
         }
-        return "";
+        throw new Error("This data contains uncatagorized routes! " + stifPathInfo);
     }
     public String categorizeByHolidayStatus(){
         if (isHoliday){

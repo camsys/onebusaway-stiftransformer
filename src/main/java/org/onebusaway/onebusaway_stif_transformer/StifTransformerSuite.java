@@ -1,25 +1,29 @@
-package org.onebusaway.onebusaway_stif_transformer.impl;
+package org.onebusaway.onebusaway_stif_transformer;
 
-import org.onebusaway.onebusaway_stif_transformer.StifSupport;
+import org.onebusaway.onebusaway_stif_transformer.impl.StifLoaderImpl;
+import org.onebusaway.onebusaway_stif_transformer.impl.StifPrinterImpl;
 import org.onebusaway.onebusaway_stif_transformer.transformer.StifTransformFactory;
 import org.onebusaway.onebusaway_stif_transformer.transformer.StifTransformer;
 import org.onebusaway.onebusaway_stif_transformer.transformer.TransformContext;
 import org.onebusaway.onebusaway_stif_transformer.transformer.TransformSpecificationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class StifTransformerSuite {
 
+    private static Logger _log = LoggerFactory.getLogger(StifTransformerSuite.class);
+
     String[] _inputPaths;
     String _tranform;
     String _outputPath;
-    int _outputFormat = 0;
+    int _outputFormat = 1;
 
     public void setInputPaths(String ... paths){
         _inputPaths = paths;
@@ -41,7 +45,7 @@ public class StifTransformerSuite {
         printer.setAddress(_outputPath);
         printer.setSupportsByFile(supportsByDirectory);
         if (_outputFormat==1) {
-            printer.printFormatForBoroughs(_inputPaths);
+            printer.printFormatForBoroughs();
         }
         if(_outputFormat==0){
             printer.print();
@@ -82,9 +86,9 @@ public class StifTransformerSuite {
                     factory.addModificationsFromFile(file);
                 }
             } catch (IOException exception) {
-                System.out.print("That was bad JSON " + exception.toString());
+                _log.error("That was bad JSON " + exception.toString());
             } catch (TransformSpecificationException exception) {
-                System.out.print("That was a bad transform " + exception.toString());
+                _log.error("That was a bad transform " + exception.toString());
             }
             transformer.run();
         }

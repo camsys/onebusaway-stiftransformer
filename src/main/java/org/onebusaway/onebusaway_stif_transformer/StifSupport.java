@@ -21,11 +21,13 @@ import java.util.*;
 
 
 import org.onebusaway.onebusaway_stif_transformer.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class StifSupport {
 
-
+  private static Logger _log = LoggerFactory.getLogger(StifSupport.class);
 
 
   private int _totalTripCount;
@@ -151,9 +153,9 @@ public class StifSupport {
 
     private void printDuplicate(StifRecord record){
       if (record != null){
-        System.out.print("Duplicate found: ");
-        System.out.print("class = " + record.getClass());
-        System.out.println("value = " + record.toString());
+        _log.info("Duplicate found: ");
+        _log.info("class = " + record.getClass());
+        _log.info("value = " + record.toString());
       }
     }
   }
