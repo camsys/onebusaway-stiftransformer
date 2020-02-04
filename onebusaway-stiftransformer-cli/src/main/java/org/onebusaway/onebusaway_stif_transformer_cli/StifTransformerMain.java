@@ -1,7 +1,7 @@
 package org.onebusaway.onebusaway_stif_transformer_cli;
 
-import org.onebusaway.onebusaway_stif_transformer.StifTransformerSuite;
-import org.onebusaway.onebusaway_stif_transformer.transformer.TransformSpecificationException;
+import org.onebusaway.onebusaway_stif_transformer_impl.StifTransformerSuite;
+import org.onebusaway.onebusaway_stif_transformer_impl.transformer.TransformSpecificationException;
 
 import java.io.IOException;
 import java.io.PrintWriter;

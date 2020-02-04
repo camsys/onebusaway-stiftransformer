@@ -8,7 +8,7 @@
     <groupId>org.onebusaway</groupId>
     <artifactId>onebusaway-stif-transformer</artifactId>
     <packaging>pom</packaging>
-    <name>onebusaway-stif-org.onebusaway.onebusaway_stif_transformer.transformer</name>
+    <name>onebusaway-stif-org.onebusaway.onebusaway_stif_transformer_impl.transformer</name>
 
     <version>1.0-SNAPSHOT</version>
     <build>
@@ -35,6 +35,7 @@
     </build>
     <modules>
         <module>onebusaway-stiftransformer-cli</module>
+        <module>onebusaway-stif-transformer-impl</module>
     </modules>
 
     <dependencies>

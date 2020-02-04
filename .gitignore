@@ -2,3 +2,7 @@
 /.idea/
 /onebusaway-stif-transformer.iml
 /onebusaway-stiftransformer-cli/onebusaway-stif-transformer-cli.iml
+/onebusaway-stif-transformer-impl/onebusawaystiftransformerimpl.iml
+/onebusaway-stif-transformer-impl/onebusaway-stif-transformer-impl.iml
+/onebusaway-stif-transformer-impl/target/
+/onebusaway-stiftransformer-cli/target/
