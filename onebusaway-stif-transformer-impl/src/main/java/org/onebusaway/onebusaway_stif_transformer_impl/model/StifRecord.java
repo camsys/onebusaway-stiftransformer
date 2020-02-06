@@ -16,5 +16,7 @@
 package org.onebusaway.onebusaway_stif_transformer_impl.model;
 
 public interface StifRecord {
+    public void addFileName(String fileName);
+    public String getFileName();
 
 }

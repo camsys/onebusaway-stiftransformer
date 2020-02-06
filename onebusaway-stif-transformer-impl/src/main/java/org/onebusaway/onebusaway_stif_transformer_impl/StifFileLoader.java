@@ -94,6 +94,7 @@ public class StifFileLoader {
         }
 
         support.addRecord(record);
+        record.addFileName(fileName);
 
         if (record instanceof TimetableRecord) {
           TimetableRecord timetableRecord = (TimetableRecord) record;

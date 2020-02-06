@@ -127,7 +127,7 @@ public class GeographyRecord implements StifRecord, Serializable {
 		this.fileName = fileName;
 	}
 
-	public String getFileName(String fileName){
+	public String getFileName(){
 		return this.fileName;
 	}
 

@@ -313,7 +313,7 @@ public class TripRecord implements StifRecord {
 	public void addFileName(String fileName){
 		this.fileName = fileName;
 	}
-	public String getFileName(String fileName){
+	public String getFileName(){
 		return this.fileName;
 	}
 

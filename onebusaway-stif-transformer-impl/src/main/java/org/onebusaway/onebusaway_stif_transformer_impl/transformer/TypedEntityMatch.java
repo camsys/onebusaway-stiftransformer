@@ -21,7 +21,7 @@ public class TypedEntityMatch implements EntityMatch {
         try {
             if(objectClass.equals(_type)
                     && objectClass.getMethod(_getMethod.getName(),_getMethod.getParameterTypes()).equals(_getMethod)){
-                if(_value.equals((String) _getMethod.invoke(object))) {
+                if(_value.matches((String) _getMethod.invoke(object))) {
                     return true;
                 }
             }
