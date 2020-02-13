@@ -68,8 +68,6 @@
         </plugins>
     </build>
 
-    </build>
-
     <distributionManagement>
         <repository>
             <id>releases-mvn-repo</id>
