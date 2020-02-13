@@ -107,7 +107,7 @@ public class StifTransformerMain {
         _log.info("output path: " + args[args.length - 2]);
         transformerSuite.setOutputPath(args[args.length - 2]);
         _log.info("Restructuring file archetecture: " + args[args.length - 1]);
-        //transformerSuite.setOutputFormat(args[args.length - 1]);
+        transformerSuite.setOutputFormat(args[args.length - 1]);
         transformerSuite.run();
     }
 

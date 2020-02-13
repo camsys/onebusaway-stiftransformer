@@ -23,6 +23,9 @@ public class StifPrinter {
     private static String ARG_FILE_DELIMETER = "/";
 
     public void printToDirectoryBoroughsFormat(StifSupport support, File outputPath){
+        if (support.getStifFileRecordsForFileId().entrySet().size() == 0){
+            return;
+        }
         StifBoroughCategorizor stifBoroughCategorizor = new StifBoroughCategorizor();
         stifBoroughCategorizor.initialize(support);
         String stifBorough = stifBoroughCategorizor.categorizeByBorough();
