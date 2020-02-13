@@ -22,12 +22,10 @@ public class StifBoroughCategorizorTest {
     @Test
     public void testStifBoroughCategorizor(){
 
-        //ClassLoader classLoader = new StifBoroughCategorizorTest().getClass().getClassLoader();
-
-        //File file = new File(classLoader.getResource("stifs_mtabc").getFile());
+        ClassLoader classLoader = new StifBoroughCategorizorTest().getClass().getClassLoader();
+        File stifsPath = new File(classLoader.getResource("onebusaway_stif_transformer_impl/stifs_mtabc").getFile());
 
         StifLoaderImpl stifLoader = new StifLoaderImpl();
-        File stifsPath = new File("/Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/onebusaway-stif-transformer-impl/src/test/resources/stifs_mtabc");
         List<File> stifFiles = new ArrayList<>();
         stifFiles.add(stifsPath);
         HashMap<String,StifSupport> stifsMap = new HashMap<String,StifSupport>();

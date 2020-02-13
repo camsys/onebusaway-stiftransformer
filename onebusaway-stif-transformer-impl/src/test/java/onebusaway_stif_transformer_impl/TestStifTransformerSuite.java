@@ -3,15 +3,20 @@ package onebusaway_stif_transformer_impl;
 import org.junit.Test;
 import org.onebusaway.onebusaway_stif_transformer_impl.StifTransformerSuite;
 
+import java.io.File;
+
 public class TestStifTransformerSuite {
     @Test
     public void testLoadAndTransformFromStringAndPrint() {
 
+        ClassLoader classLoader = new StifBoroughCategorizorTest().getClass().getClassLoader();
+        File stifsPath = new File(classLoader.getResource("onebusaway_stif_transformer_impl/stifs_mtabc").getFile());
+
         String[] inputPaths = new String[1];
-        inputPaths[0] = "/Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/onebusaway-stif-transformer-impl/src/test/resources/stifs_mtabc";
+        inputPaths[0] = stifsPath.getAbsolutePath();
         //inputPaths[0] = "/var/folders/2t/k5nkxf3s49153ccm9h7wqmx40000gn/T/tmp1580408549199/stif/stif/non_holiday/stif.m_0034sb.212123.sat";
         String transform = "https://raw.githubusercontent.com/wiki/camsys/onebusaway-nyc/stif_transformations.md";
-        String outputPath = "/Users/caylasavitzky/Downloads/Stif-transformer" + System.currentTimeMillis();
+        String outputPath = System.getProperty("java.io.tmpdir") + "/" + System.currentTimeMillis();
 
         StifTransformerSuite transformerSuite = new StifTransformerSuite();
         transformerSuite.setInputPaths(inputPaths);
@@ -23,10 +28,14 @@ public class TestStifTransformerSuite {
     @Test
     public void testLoadAndTransformFromFileAndPrint() {
 
+        ClassLoader classLoader = new StifBoroughCategorizorTest().getClass().getClassLoader();
+        File stifsPath = new File(classLoader.getResource("onebusaway_stif_transformer_impl/stifs_mtabc").getFile());
+        File transformationFile = new File(classLoader.getResource("onebusaway_stif_transformer_impl/loadTransformByFileTest.json").getFile());
+
         String[] inputPaths = new String[1];
-        inputPaths[0] = "/Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/onebusaway-stif-transformer-impl/src/test/resources/stifs_mtabc";
-        String transform = "/Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/onebusaway-stif-transformer-impl/src/test/resources/loadTransformByFileTest.json";
-        String outputPath = "/Users/caylasavitzky/Downloads/Stif-transformer" + System.currentTimeMillis();
+        inputPaths[0] = stifsPath.getAbsolutePath();
+        String transform = transformationFile.getAbsolutePath();
+        String outputPath = System.getProperty("java.io.tmpdir") + "/" + System.currentTimeMillis();
 
         StifTransformerSuite transformerSuite = new StifTransformerSuite();
         transformerSuite.setInputPaths(inputPaths);
@@ -34,6 +43,5 @@ public class TestStifTransformerSuite {
         transformerSuite.setOutputPath(outputPath);
         transformerSuite.run();
     }
-
 
 }
