@@ -1,10 +1,48 @@
-Usage: [args] gtfs_input_dir ... gtfs_output_dir
+Usage: stif_input_dir ... stif_transformation stif_output_dir mode
 
-Args:
- --agencyId ID                    override the default agency id for imported GTFS data
- --transform=SPEC                 apply general transform from the specified definition
- --overwriteDuplicates            specify that duplicate GTFS entities should overwrite each other
+Usage specifications:
+stif_input_dir --
+        These files can be individual stif files, .zip files, or directories
 
+stif_transformation --
+        This can be a json transformation, a file of transformations, or a webpage of transformations
+
+stif_output_dir --
+        The stif transformer will make a directory or print to an already existing one
+
+mode --
+        Format 0 will output all stif files in a flat directory structure.
+        Format 1 will output all stif files in borough and holiday/non-holiday structure
+        Format 2 will output a list of routes associated with each stif_input_dir specified. These routes are for use in the borough sorting performed by Format 1.
 Transforms:
 
-You can specify transforms in a number of ways.  See the online documentation for more extensive documentation.
+Current functionality includes the update command. The syntax for this command is identical to the syntax described in the onebusaway gtfs-transformer.
+More info on the gtfs-transformer can be found online.
+
+Example of a stif transformation:
+{\"op\":\"update\",\"match\":{\"class\":\"EventRecord\",\"location\":\"1473\"},\"update\":{\"boardingAlightingFlag\":\"N\"}}
+
+Please note that the naming scheme used is a camel-case match to the naming scheme procided if the Stif Documentation 3.4
+
+
+
+Sample command 1:
+java -jar onebusaway-stif-transformer-cli.jar \
+/Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/src/test/resources/QUMLK.zip \
+/Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/src/test/resources/STIF_SURFACE_B_2020-01-05_REV2019-12-30_1426252-v1.zip \
+/Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/src/test/resources/STIF_SURFACE_M_2020-01-05_REV2019-11-21_1107542-v2.zip \
+/Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/src/test/resources/STIF_SURFACE_Q_2020-01-05_REV2019-11-21_1640168-v1.zip \
+/Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/src/test/resources/STIF_SURFACE_S_2020-01-05_REV2019-11-21_1415362-v2.zip  \
+/Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/src/test/resources/STIF_MTABC_A0_AsAssigned_Rte_Included_Hol_Included-v1.zip \
+/Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/src/test/resources/STIF_SURFACE_BX_2020-01-05_REV2019-11-21_1038546.zip \
+'{\"op\":\"update\",\"match\":{\"class\":\"EventRecord\",\"location\":\"1473\"},\"update\":{\"boardingAlightingFlag\":\"N\"}}' \
+/Users/caylasavitzky/Downloads/Stif-transformer-test1 \
+1
+
+
+Sample command 2:
+java -jar onebusaway-stif-transformer-cli.jar \
+stif/input/dir \
+'{\"op\":\"update\",\"match\":{\"class\":\"EventRecord\",\"location\":\"1473\"},\"update\":{\"boardingAlightingFlag\":\"N\"}}' \
+ /Users/caylasavitzky/Downloads/Stif-transformer-test1 \
+ 1
