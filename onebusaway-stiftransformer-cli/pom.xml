@@ -3,30 +3,41 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>onebusaway-stif-transformer</artifactId>
+        <groupId>org.onebusaway</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
     <artifactId>onebusaway-stif-transformer-cli</artifactId>
     <name>onebusaway-stif-transformer-cli</name>
     <description>A Java application for transforming STIF feeds</description>
+
     <dependencies>
-        <dependency>
-            <groupId>org.onebusaway</groupId>
-            <artifactId>onebusaway-stif-transformer</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>org.onebusaway</groupId>
             <artifactId>onebusaway-stif-transformer-impl</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-cli</groupId>
+            <artifactId>commons-cli</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
     </dependencies>
-
-    <parent>
-        <artifactId>onebusaway-stif-transformer</artifactId>
-        <groupId>org.onebusaway</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <properties>
         <!-- We don't always want to deploy the packaged jar to main maven repo, since it includes all the project dependencies and
@@ -35,53 +46,45 @@
     </properties>
 
     <build>
-    <finalName>onebusaway-stif-transformer-cli</finalName>
-    <directory>target</directory>
-    <outputDirectory>target/classes</outputDirectory>
-    <sourceDirectory>src/main/java</sourceDirectory>
-    <resources>
-        <resource>
-            <directory>src/main/resources</directory>
-            <filtering>true</filtering>
-        </resource>
-    </resources>
-    <plugins>
-        <plugin>
-            <artifactId>maven-shade-plugin</artifactId>
-            <executions>
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>shade</goal>
-                    </goals>
-                    <configuration>
-                        <shadedClassifierName>withAllDependencies</shadedClassifierName>
-                        <createDependencyReducedPom>false</createDependencyReducedPom>
-                        <transformers>
-                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                <mainClass>org.onebusaway.onebusaway_stif_transformer_cli.StifTransformerMain</mainClass>
-                            </transformer>
-                        </transformers>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-deploy-plugin</artifactId>
-            <configuration>
-            </configuration>
-        </plugin>
-    </plugins>
-</build>
-
-<profiles>
-<profile>
-    <id>oss-distribution</id>
-    <properties>
-    </properties>
-</profile>
-</profiles>
+        <finalName>onebusaway-stif-transformer-cli</finalName>
+        <directory>target</directory>
+        <outputDirectory>target/classes</outputDirectory>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedClassifierName>withAllDependencies</shadedClassifierName>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>org.onebusaway.onebusaway_stif_transformer_cli.StifTransformerMain</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>
