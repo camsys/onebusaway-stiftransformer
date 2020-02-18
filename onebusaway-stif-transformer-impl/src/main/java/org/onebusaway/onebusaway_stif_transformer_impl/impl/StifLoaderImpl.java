@@ -9,8 +9,6 @@ import net.lingala.zip4j.exception.ZipException;
 import org.apache.commons.io.FileUtils;
 import org.onebusaway.onebusaway_stif_transformer_impl.StifFileLoader;
 import org.onebusaway.onebusaway_stif_transformer_impl.StifSupport;
-import org.onebusaway.onebusaway_stif_transformer_impl.model.GeographyRecord;
-import org.onebusaway.onebusaway_stif_transformer_impl.model.ServiceCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
