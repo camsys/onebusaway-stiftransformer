@@ -3,8 +3,12 @@ package onebusaway_stif_transformer_impl;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.onebusaway.onebusaway_stif_transformer_impl.StifTransformerSuite;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TestStifTransformerSuite {
+    private static Logger _log = LoggerFactory.getLogger(TestStifTransformerSuite.class);
+
     @Ignore
     @Test
     public void testLoadAndTransformFromSiteAndPrint() {

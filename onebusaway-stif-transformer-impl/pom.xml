@@ -11,5 +11,28 @@
 
     <artifactId>onebusaway-stif-transformer-impl</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>apache-log4j-extras</artifactId>
+            <version>1.1</version>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+                <id>
+                    local-front-end
+                </id>
+                <properties>
+                    <log4j.appender>stdout</log4j.appender>
+                </properties>
+        </profile>
+    </profiles>
 
 </project>
