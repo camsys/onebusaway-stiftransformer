@@ -20,7 +20,7 @@ Current functionality includes the update command. The syntax for this command i
 More info on the gtfs-transformer can be found online.
 
 Example of a stif transformation:
-{\"op\":\"update\",\"match\":{\"class\":\"EventRecord\",\"location\":\"1473\"},\"update\":{\"boardingAlightingFlag\":\"N\"}}
+{"op":"update","match":{"class":"EventRecord","location":"1473"},"update":{"boardingAlightingFlag":"N"}}
 
 Please note that the naming scheme used is a camel-case match to the naming scheme procided if the Stif Documentation 3.4
 
@@ -35,14 +35,14 @@ java -jar onebusaway-stif-transformer-cli.jar \
 /Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/src/test/resources/STIF_SURFACE_S_2020-01-05_REV2019-11-21_1415362-v2.zip  \
 /Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/src/test/resources/STIF_MTABC_A0_AsAssigned_Rte_Included_Hol_Included-v1.zip \
 /Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/src/test/resources/STIF_SURFACE_BX_2020-01-05_REV2019-11-21_1038546.zip \
-'{\"op\":\"update\",\"match\":{\"class\":\"EventRecord\",\"location\":\"1473\"},\"update\":{\"boardingAlightingFlag\":\"N\"}}' \
+{"op":"update","match":{"class":"EventRecord","distanceFromStartOfTrip":"0"},"update":{"boardingAlightingFlag":"m"}} \
 /Users/caylasavitzky/Downloads/Stif-transformer-test1 \
 1
 
 
 Sample command 2:
 java -jar onebusaway-stif-transformer-cli.jar \
-stif/input/dir \
-'{\"op\":\"update\",\"match\":{\"class\":\"EventRecord\",\"location\":\"1473\"},\"update\":{\"boardingAlightingFlag\":\"N\"}}' \
- /Users/caylasavitzky/Downloads/Stif-transformer-test1 \
+/stif/input/dir \
+https://raw.githubusercontent.com/wiki/camsys/onebusaway-stiftransformer/sample-transform.md \
+/stif/output/dir \
  1
