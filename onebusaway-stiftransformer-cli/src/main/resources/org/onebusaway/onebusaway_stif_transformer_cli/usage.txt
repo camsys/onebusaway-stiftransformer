@@ -35,7 +35,7 @@ java -jar onebusaway-stif-transformer-cli.jar \
 /Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/src/test/resources/STIF_SURFACE_S_2020-01-05_REV2019-11-21_1415362-v2.zip  \
 /Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/src/test/resources/STIF_MTABC_A0_AsAssigned_Rte_Included_Hol_Included-v1.zip \
 /Users/caylasavitzky/src/mtaoba/onebusaway-stiftransformer/src/test/resources/STIF_SURFACE_BX_2020-01-05_REV2019-11-21_1038546.zip \
-{"op":"update","match":{"class":"EventRecord","distanceFromStartOfTrip":"0"},"update":{"boardingAlightingFlag":"m"}} \
+"{"op":"update","match":{"class":"EventRecord","distanceFromStartOfTrip":"0"},"update":{"boardingAlightingFlag":"m"}}" \
 /Users/caylasavitzky/Downloads/Stif-transformer-test1 \
 1
 
