@@ -375,7 +375,7 @@ public class TimetableRecord implements StifRecord {
 		formater = "%-"+ n + "s";
 		out += String.format(formater, this.getStatisticalRoute());
 
-		n = 153 - 146;
+		n = 152 - 146;
 		formater = "%-"+ n + "s";
 		out += String.format(formater, this.getHolidayCode());
 
