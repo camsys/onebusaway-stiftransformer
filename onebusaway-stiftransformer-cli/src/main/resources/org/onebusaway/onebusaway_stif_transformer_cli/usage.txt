@@ -13,7 +13,6 @@ stif_output_dir --
 mode --
         Format 0 will output all stif files in a flat directory structure.
         Format 1 will output all stif files in borough and holiday/non-holiday structure
-        Format 2 will output a list of routes associated with each stif_input_dir specified. These routes are for use in the borough sorting performed by Format 1.
 Transforms:
 
 Current functionality includes the update command. The syntax for this command is identical to the syntax described in the onebusaway gtfs-transformer.

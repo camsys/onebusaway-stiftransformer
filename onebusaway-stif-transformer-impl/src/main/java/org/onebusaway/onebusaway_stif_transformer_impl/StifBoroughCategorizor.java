@@ -64,10 +64,10 @@ public class StifBoroughCategorizor {
         if (!(countOfHolidayRecords == 0 || countOfNonHolidayRecords==0)){
             throw new Error("Directory contains both holiday and nonholiday files!");
         }
-        else if (countOfHolidayRecords > 1){
+        else if (countOfHolidayRecords > 0){
             isHoliday = true;
         }
-        else if (countOfNonHolidayRecords > 1){
+        else if (countOfNonHolidayRecords > 0){
             isHoliday = false;
         }
     }

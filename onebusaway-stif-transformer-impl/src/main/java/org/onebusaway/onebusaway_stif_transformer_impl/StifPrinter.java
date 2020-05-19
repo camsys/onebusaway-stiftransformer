@@ -41,17 +41,15 @@ public class StifPrinter {
         }
     }
 
-    public void printToDirectory(StifSupport support, File sourcePath, File directory){
-        if (directory.isDirectory()) {
+    public void printToDirectoryOriginalFormat(StifSupport support, File sourcePath, File outputPath){
+        if (outputPath.isDirectory()) {
             Map<String,ArrayList<StifRecord>> mapOfStifRecords = support.getStifFileRecordsForFileId();
             for (Map.Entry<String,ArrayList<StifRecord>> stifRecordEntry:mapOfStifRecords.entrySet()) {
-                File stifPath = support.getStifFilePathForFileName(stifRecordEntry.getKey());
-                File outputPath = updateOutputLocationForDirectoryStructure(directory, sourcePath,stifPath.getParentFile());
                 printStifRecords(outputPath,stifRecordEntry.getKey(),stifRecordEntry.getValue());
             }
         }
         else {
-            _log.error("file is not directory" + directory.getAbsolutePath());
+            _log.error("file is not directory" + outputPath.getAbsolutePath());
         }
     }
 

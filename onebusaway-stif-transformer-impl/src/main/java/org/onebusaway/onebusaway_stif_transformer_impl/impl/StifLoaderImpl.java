@@ -30,7 +30,6 @@ public class StifLoaderImpl {
 		for (File path : stifPaths) {
 			StifFileLoader stifFileLoader = new StifFileLoader();
 			loadStif(path, stifFileLoader, workingDir, supportsByDirectory);
-			supportsByDirectory.put(path.getAbsolutePath(), stifFileLoader.getSupport());
 		}
 		try {
 			FileUtils.deleteDirectory(workingDir);
@@ -53,7 +52,6 @@ public class StifLoaderImpl {
 				File contained = new File(path, filename);
 				loadStif(contained, stifFileLoader, workingDir, supportsByDirectory);
 			}
-			supportsByDirectory.put(path.getAbsolutePath(), stifFileLoader.getSupport());
 		}
 
 		else if (path.getName().endsWith(".zip")){
@@ -70,12 +68,13 @@ public class StifLoaderImpl {
 		}
 
 		 else {
-			loader.run(path);
+			StifFileLoader stifFileLoader = new StifFileLoader();
+			stifFileLoader.run(path);
+			supportsByDirectory.put(path.getAbsolutePath(), stifFileLoader.getSupport());
 		}
 	}
-	public static void main(){
 
-	}
+
 
 }
 

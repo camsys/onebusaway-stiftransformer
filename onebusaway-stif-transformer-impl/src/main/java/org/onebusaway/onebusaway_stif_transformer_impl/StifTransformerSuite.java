@@ -41,33 +41,30 @@ public class StifTransformerSuite {
     }
 
     public void run (){
-        HashMap<String, StifSupport> supportsByDirectory = new HashMap<>();
-        load(supportsByDirectory);
+        HashMap<String,HashMap<String,StifSupport>> supportsByFileByInputSource = new HashMap<>();
+        for (String inputPath : _inputPaths) {
+            HashMap<String, StifSupport> supportsByFile = new HashMap<>();
+            load(supportsByFile, inputPath);
+            supportsByFileByInputSource.put(inputPath,supportsByFile);
+        }
         _log.info("Stif Transformer loading complete");
-        transform(supportsByDirectory, _tranform);
+        for(Map.Entry<String, HashMap<String,StifSupport>> supportsByFileByInputSourceEntry : supportsByFileByInputSource.entrySet()){
+            transform(supportsByFileByInputSourceEntry.getValue(), _tranform);
+        }
+
         _log.info("Stif Transformer transformation complete");
-        StifPrinterImpl printer = new StifPrinterImpl();
-        printer.setAddress(_outputPath);
-        printer.setSupportsByFile(supportsByDirectory);
-        if (_outputFormat==1) {
-            printer.printFormatForBoroughs();
-        }
-        if(_outputFormat==0){
-            printer.print();
-        }
-        if(_outputFormat==2) {
-            printer.printListOfBoroughsAndRoutes();
+
+        for(Map.Entry<String, HashMap<String,StifSupport>> supportsByFileByInputSourceEntry : supportsByFileByInputSource.entrySet()){
+            print(supportsByFileByInputSourceEntry.getValue(), supportsByFileByInputSourceEntry.getKey());
         }
         _log.info("Stif Transformer printing complete");
     }
 
-    private void load(HashMap<String, StifSupport> supportsByDirectory){
-        for (String path : _inputPaths){
-            StifLoaderImpl loader = new StifLoaderImpl();
-            ArrayList<File> files = new ArrayList<File>();
-            files.add((new File(path)));
-            loader.load(files, supportsByDirectory);
-        }
+    private void load(HashMap<String, StifSupport> supportsByDirectory, String path){
+        StifLoaderImpl loader = new StifLoaderImpl();
+        ArrayList<File> files = new ArrayList<File>();
+        files.add((new File(path)));
+        loader.load(files, supportsByDirectory);
     }
 
 
@@ -101,4 +98,12 @@ public class StifTransformerSuite {
 
     }
 
+    private void print(HashMap<String, StifSupport> supportsByFile, String inputPath){
+        StifPrinterImpl printer = new StifPrinterImpl();
+        printer.setAddress(_outputPath);
+        printer.setSupportsByFile(supportsByFile);
+        printer.setPrintType(_outputFormat);
+        printer.setInputPath(inputPath);
+        printer.print();
+    }
 }

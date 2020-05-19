@@ -20,6 +20,8 @@ public class StifPrinterImpl {
     private String homePath = null;
     private StifPrinter printer = new StifPrinter();
     private HashMap<String,StifSupport> _supportsByFile;
+    private int printType = 0;
+    private String inputPath;
 
     public void setAddress(String homePath) {
         this.homePath = homePath;
@@ -33,19 +35,37 @@ public class StifPrinterImpl {
         _supportsByFile = supportsByFile;
     }
 
-    public void print() {
-        File outputPath = new File(homePath);
-        Boolean madeHomeDir = outputPath.mkdir();
-        if (madeHomeDir || true) {
-            for(Map.Entry<String, StifSupport> entry : _supportsByFile.entrySet()){
-                File sourcePath = new File(entry.getKey());
-                StifSupport support = entry.getValue();
-                printer.printToDirectory(entry.getValue(), sourcePath, outputPath);
-            }
+    public void setInputPath(String inputPath){this.inputPath = inputPath;}
+
+    public void setPrintType(int printType){this.printType = printType;}
+
+    public void print(){
+        switch(printType){
+            case 0:
+                printFormatAsOriginal();
+                break;
+            case 1:
+                printFormatForBoroughs();
+                break;
+            case 2:
+                printListOfBoroughsAndRoutes();
+                break;
         }
-        else{
-            _log.info("Could not make home directory");
+    }
+
+
+    public void printFormatAsOriginal() {
+        File outputHomePath = new File(homePath);
+        outputHomePath.mkdir();
+        for (Map.Entry<String, StifSupport> entry : _supportsByFile.entrySet()) {
+            File outputPath = new File(outputHomePath + "/" + entry.getKey().substring(inputPath.length()));
+            File outputPathParent = outputPath.getParentFile();
+            outputPathParent.mkdirs();
+            File sourcePath = new File(entry.getKey());
+            StifSupport support = entry.getValue();
+            printer.printToDirectoryOriginalFormat(entry.getValue(), sourcePath, outputPathParent);
         }
+
     }
 
     public void printFormatForBoroughs(){
