@@ -3,7 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    <parent>
+        <groupId>org.onebusaway</groupId>
+        <artifactId>onebusaway</artifactId>
+        <version>1.2.6</version>
+    </parent>
     <groupId>org.onebusaway</groupId>
     <artifactId>onebusaway-stif-transformer</artifactId>
     <packaging>pom</packaging>
@@ -13,27 +17,27 @@
 
     <repositories>
         <repository>
-            <id>public.onebusaway.org</id>
-            <url>http://nexus.onebusaway.org/content/groups/public/</url>
+            <id>repo.camsys-apps.com</id>
+            <url>https://repo.camsys-apps.com/third-party/</url>
         </repository>
         <repository>
-            <id>snapshots.staging.obanyc.com</id>
-            <url>http://build.staging.obanyc.com/archiva/repository/snapshots/</url>
+            <id>releases-camsys-public-repo</id>
+            <url>https://repo.camsys-apps.com/releases/</url>
             <releases>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </releases>
             <snapshots>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </snapshots>
         </repository>
         <repository>
-            <id>releases.staging.obanyc.com</id>
-            <url>http://build.staging.obanyc.com/archiva/repository/releases/</url>
+            <id>snapshots-camsys-public-repo</id>
+            <url>https://repo.camsys-apps.com/snapshots/</url>
             <releases>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </releases>
             <snapshots>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </snapshots>
         </repository>
     </repositories>
@@ -68,21 +72,44 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <excludes combine.children="append">
+                        <exclude>.idea/**</exclude>
+                        <exclude>overlays/**</exclude>
+                        <exclude>bin/**</exclude>
+                        <exclude>**/src/main/resources/**</exclude>
+                        <exclude>**/src/test/resources/**</exclude>
+                        <exclude>**/js/lib/**</exclude>
+                        <exclude>**/ESAPI.properties</exclude>
+                        <exclude>**/git.properties</exclude>
+                        <exclude>**/data-sources.xml</exclude>
+                        <exclude>**/*.action</exclude>
+                        <exclude>**/*.ai</exclude>
+                        <exclude>**/*.tagx</exclude>
+                        <exclude>**/*.swf</exclude>
+                        <exclude>**/*.mp3</exclude>
+                        <exclude>**/*.wav</exclude>
+                        <exclude>**/.iml</exclude>
+                        <exclude>**/*.info</exclude>
+                        <exclude>**/*.rb</exclude>
+                        <exclude>**/*.py</exclude>
+                        <exclude>**/*.sh</exclude>
+                        <exclude>**/*.sh</exclude>
+                        <exclude>**/*.pom</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <distributionManagement>
-        <repository>
-            <id>releases-mvn-repo</id>
-            <url>http://build.staging.obanyc.com/archiva/repository/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots-mvn-repo</id>
-            <url>http://build.staging.obanyc.com/archiva/repository/snapshots/</url>
-        </snapshotRepository>
         <site>
-            <id>build.staging.obanyc.com</id>
-            <url>scp://build.staging.obanyc.com/var/www/sites/developer/modules/onebusaway-nyc/${project.version}</url>
+            <id>${site_id}</id>
+            <url>${site_deployment_base}/onebusaway-stif-transformer/${project.version}</url>
         </site>
     </distributionManagement>
 
