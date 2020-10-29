@@ -71,6 +71,7 @@ public class StifFileLoader {
         in = new GZIPInputStream(in);
       run(in, path);
     } catch (Exception e) {
+      _log.error("Caught exception reading file in stif-transformer, stifFileLoader",e);
       throw new RuntimeException("Error loading " + path, e);
     }
   }
@@ -133,6 +134,7 @@ public class StifFileLoader {
       }
       support.processFile(fileName);
     } catch (IOException e) {
+      _log.error("Caught exception loading file in stif-transformer, stifFileLoader",e);
       throw new RuntimeException(e);
     }
   }

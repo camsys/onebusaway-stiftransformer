@@ -104,9 +104,9 @@ public class StifTransformerSuite {
                     factory.addModificationsFromFile(file);
                 }
             } catch (IOException exception) {
-                _log.error("That was bad JSON " + exception.toString());
+                _log.error("The Stif-Transformer was fed bad json", exception.toString());
             } catch (TransformSpecificationException exception) {
-                _log.error("That was a bad transform " + exception.toString());
+                _log.error("The Stif-Transformer was fed a bad transformation", exception.toString());
             }
             transformer.run();
         }
