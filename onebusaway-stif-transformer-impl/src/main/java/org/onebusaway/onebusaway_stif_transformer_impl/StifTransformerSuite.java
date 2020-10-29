@@ -57,6 +57,7 @@ public class StifTransformerSuite {
 
     public void run (){
         HashMap<String,HashMap<String,StifSupport>> supportsByFileByInputSource = new HashMap<>();
+        _log.info("Number of stif sources being loaded" + _inputPaths.length);
         for (String inputPath : _inputPaths) {
             HashMap<String, StifSupport> supportsByFile = new HashMap<>();
             load(supportsByFile, inputPath);
