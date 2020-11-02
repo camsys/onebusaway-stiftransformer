@@ -38,6 +38,7 @@ public class StifTransformerSuite {
     String[] _inputPaths;
     String _tranform;
     String _outputPath;
+    String _workingDirPath;
     int _outputFormat = 1;
 
     public void setInputPaths(String ... paths){
@@ -54,6 +55,7 @@ public class StifTransformerSuite {
     public void setOutputFormat(int formatForBoroughs) {
         _outputFormat = formatForBoroughs;
     }
+    public void setWorkingDirPath (String workingDirPath) {_workingDirPath = workingDirPath;}
 
     public void run (){
         HashMap<String,HashMap<String,StifSupport>> supportsByFileByInputSource = new HashMap<>();
@@ -80,10 +82,14 @@ public class StifTransformerSuite {
         StifLoaderImpl loader = new StifLoaderImpl();
         ArrayList<File> files = new ArrayList<File>();
         files.add((new File(path)));
-        //_log.info(path);
-        loader.load(files, supportsByDirectory);
+        _log.info("Begining load from: " + path);
+        if(_workingDirPath!=null){
+            loader.load(files,supportsByDirectory,_workingDirPath);
+        }
+        else {
+            loader.load(files, supportsByDirectory);
+        }
     }
-
 
 
     private void transform(HashMap<String, StifSupport> supportsByDirectory, String transform) {

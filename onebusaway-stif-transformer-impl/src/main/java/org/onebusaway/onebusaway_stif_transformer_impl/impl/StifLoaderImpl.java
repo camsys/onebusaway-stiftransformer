@@ -38,14 +38,22 @@ public class StifLoaderImpl {
 		_excludeNonRevenue = excludeNonRevenue;
 	}
 
-	public void load(List<File> stifPaths, HashMap<String, StifSupport> supportsByDirectory){
-		File workingDir = new File("tmp"+System.currentTimeMillis());
+	public void load(List<File> stifPaths, HashMap<String, StifSupport> supportsByDirectory) {
+		load(stifPaths,supportsByDirectory,"tmp" + System.currentTimeMillis());
+	}
+
+	public void load(List<File> stifPaths, HashMap<String, StifSupport> supportsByDirectory, String workingDirPath){
+		File workingDir = new File(workingDirPath);
 		workingDir.mkdir();
+		load(stifPaths,supportsByDirectory,workingDir);
+	}
+
+	public void load(List<File> stifPaths, HashMap<String, StifSupport> supportsByDirectory, File workingDir){
 
 		for (File path : stifPaths) {
 			StifFileLoader stifFileLoader = new StifFileLoader();
 			try {
-				_log.info("Loading Stif from: " +stifPaths);
+				_log.info("Loading Stif from: " +path);
 				loadStif(path, stifFileLoader, workingDir, supportsByDirectory);
 			} catch (Exception e){
 				_log.error("exeption occured in loading stif ", e);
@@ -80,7 +88,7 @@ public class StifLoaderImpl {
 				_log.info("Found .zip file when stif file was expected at " + path + " attempting to unzip and load contents");
 				ZipFile zipFile = new ZipFile(path);
 				File currentStifDir = new File (workingDir.getAbsolutePath()+"/"+path.getName());
-				_log.info("Creating file to contain zip contents at: " + currentStifDir.getPath());
+				_log.info("Creating file to contain zip contents at: " + currentStifDir.getAbsolutePath());
 				_log.info("Extracting  zip contents");
 				zipFile.extractAll(currentStifDir.getAbsolutePath());
 				_log.info("Contents extracted");
