@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
     <name>onebusaway-stif-transformer</name>
 
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.5.0</version>
 
     <repositories>
         <repository>
